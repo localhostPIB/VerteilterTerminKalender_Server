@@ -9,6 +9,8 @@
         <class>terminkalender.model.classes.EventInviteImpl</class>
         <class>terminkalender.model.classes.EventParticipateImpl</class>
         <class>terminkalender.model.classes.UserImpl</class>
+        <class>terminkalender.util.BooleanToIntegerConverter</class>
+        <class>terminkalender.util.LocalDateTimeToStringConverter</class>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.sqlite.JDBC" />
             <property name="javax.persistence.jdbc.url" value="jdbc:sqlite:src/main/resources/database.db" />
