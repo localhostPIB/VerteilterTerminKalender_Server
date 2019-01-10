@@ -12,7 +12,7 @@ import java.sql.SQLException;
 
 public class ObjectDAOImpl implements ObjectDAO
 {
-    public static Connection connection;
+    static Connection connection;
     protected EntityManagerFactory factory;
     protected EntityManager entityManager;
     protected EntityTransaction transaction;
@@ -22,7 +22,7 @@ public class ObjectDAOImpl implements ObjectDAO
      */
     public ObjectDAOImpl() {
         try {
-            connection = DriverManager.getConnection("jdbc:sqlite:src/main/resources/testdb.db" );
+            connection = DriverManager.getConnection("jdbc:sqlite:src/main/resources/database.db" );
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -33,7 +33,7 @@ public class ObjectDAOImpl implements ObjectDAO
      */
     @Override
     public void initTransaction() {
-        factory = Persistence.createEntityManagerFactory("test");
+        factory = Persistence.createEntityManagerFactory("database");
         entityManager = factory.createEntityManager();
         transaction = entityManager.getTransaction();
     }
