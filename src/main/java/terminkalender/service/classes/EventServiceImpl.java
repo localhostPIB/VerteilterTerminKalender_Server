@@ -7,10 +7,7 @@ import terminkalender.model.interfaces.Event;
 import terminkalender.service.interfaces.EventService;
 import terminkalender.validators.ObjectValidator;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.awt.*;
 import java.util.List;
@@ -31,8 +28,13 @@ public class EventServiceImpl implements EventService {
         this(DAOObjectBuilder.getEventDaoObject());
     }
 
+    @POST
+    @Path("{eventid}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+
     @Override
-    public int addEvent(Event event){
+    public int addEvent(@PathParam("eventid") int eventId){
         return 0;
     }
 
@@ -44,10 +46,14 @@ public class EventServiceImpl implements EventService {
         return null;
     }
 
+    @PUT
+    @Path("{eventid}")
+    @Consumes(MediaType.APPLICATION_JSON)
     @Override
-    public void updateEvent(Event event){
+    public void updateEvent(@PathParam("eventid") int eventId){
     }
 
+    @DELETE
     @Override
     public void deleteEvent(int eventId){
 

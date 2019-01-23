@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface EventService
 {
-	public int addEvent(Event event);
+	public int addEvent(int eventId);
 	public Event getEvent(int eventId);
-	public void updateEvent(Event event);
+	public void updateEvent(int eventId);
 	public void deleteEvent(int eventId);
 
 	public List<Event> getAllEventFromUser(int userId);

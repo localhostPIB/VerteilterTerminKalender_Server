@@ -15,6 +15,7 @@ public class UserServiceImpl implements UserService {
     @POST
     @Path("{userid}")
     @Override
+    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public int addUser(@PathParam("userid") int userId){
         return 0;
@@ -38,7 +39,7 @@ public class UserServiceImpl implements UserService {
 
     @DELETE
     @Override
-    public void deleteUser(int userId){
+    public void deleteUser( int userId){
 
     }
 
