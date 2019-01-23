@@ -7,8 +7,15 @@ import terminkalender.model.interfaces.Event;
 import terminkalender.service.interfaces.EventService;
 import terminkalender.validators.ObjectValidator;
 
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import java.awt.*;
 import java.util.List;
 
+@Path("/event")
 public class EventServiceImpl implements EventService {
 
     private EventDAO eventDAO;
@@ -29,8 +36,11 @@ public class EventServiceImpl implements EventService {
         return 0;
     }
 
+    @GET
+    @Path("{eventid}")
+    @Produces(MediaType.APPLICATION_JSON)
     @Override
-    public Event getEvent(int eventId){
+    public Event getEvent(@PathParam("eventid") int eventId){
         return null;
     }
 
