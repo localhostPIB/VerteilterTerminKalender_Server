@@ -36,7 +36,7 @@ public class EventDeclineServiceImpl implements EventDeclineService {
 
    @DeleteMapping(path = "/eventId")
    @Override
-   public ResponseEntity<?> deleteDecline(@PathVariable("userId") long declinedUserId) {
+   public ResponseEntity<?> deleteDecline(@PathVariable("eventId") long declinedUserId) {
        return eventDeclineRepository.findById(declinedUserId)
                .map(record -> {
                    eventDeclineRepository.deleteById(declinedUserId);
