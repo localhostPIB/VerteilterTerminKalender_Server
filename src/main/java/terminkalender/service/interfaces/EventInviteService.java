@@ -1,7 +1,10 @@
 package terminkalender.service.interfaces;
 
+import org.springframework.http.ResponseEntity;
+import terminkalender.model.interfaces.EventInvite;
+
 public interface EventInviteService
 {
-	public void addInvitation(int eventId, int invitedUserId);
-	public void deleteInvitation(int eventId, int invitedUserId);
+	public EventInvite addInvitation(EventInvite eventInvite);
+	public ResponseEntity<?> deleteInvitation(long invitedUserId);
 }

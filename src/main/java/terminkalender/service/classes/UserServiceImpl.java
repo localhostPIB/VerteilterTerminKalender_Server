@@ -1,18 +1,12 @@
 package terminkalender.service.classes;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import terminkalender.dao.interfaces.UserDAO;
 import terminkalender.model.interfaces.User;
 import terminkalender.service.interfaces.UserService;
-import terminkalender.util.UserRepository;
-
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import terminkalender.service.RepositoriesInterface.UserRepository;
 
 @RestController
 @RequestMapping("/user")
@@ -66,7 +60,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
-    //@TODO password might be included
+    //TODO password might be included
 
     @GetMapping(path = {"/{userid}"})
     @Override

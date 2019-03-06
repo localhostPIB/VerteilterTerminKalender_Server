@@ -1,7 +1,11 @@
 package terminkalender.service.interfaces;
 
+import org.springframework.http.ResponseEntity;
+import terminkalender.model.interfaces.EventParticipate;
+
 public interface EventParticipateService
 {
-	public void addParticipated(int eventId, int participatedUserId);
-	public void deleteParticipated(int eventId, int participatedUserId);
+	public EventParticipate addParticipated(EventParticipate eventParticipate);
+	//public ResponseEntity<?> deleteParticipated(long eventId, int participatedUserId);
+	public ResponseEntity<?> deleteParticipated(long eventId);
 }
