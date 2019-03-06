@@ -1,13 +1,15 @@
 package terminkalender.service.interfaces;
 
+import org.springframework.http.ResponseEntity;
 import terminkalender.model.interfaces.User;
+import javax.ws.rs.core.Response;
 
 public interface UserService
 {
-	public int addUser(int userId);
-	public User getUser(int userId);
-	public void updateUser(int userId);
-	public void deleteUser(int userId);
+	public User addUser (User user);
+	public ResponseEntity<User> getUser (long userId);
+	public ResponseEntity<User> updateUser(long userId, User user);
+	public ResponseEntity<?> deleteUser(long userId);
 
 	public boolean verifyUser(String password);
 }
