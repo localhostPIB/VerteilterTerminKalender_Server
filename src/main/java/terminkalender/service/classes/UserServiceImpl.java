@@ -46,18 +46,18 @@ public class UserServiceImpl implements UserService
         return userDAO.getUser(newUserId);
     }
 
-    //ex: localhost:8000/user/23
+    //ex: localhost:8000/user/{email}
     /**
      * GET-endpoint for retrieving user
-     * @param userId the id of the user wants to be retrieved
+     * @param email the id of the user wants to be retrieved
      * @return the user having the userId
      */
     @Override
     @GET
-    @Path("{userid}")
+    @Path("{email}")
     @Produces({MediaType.APPLICATION_JSON})
-    public User getUser(@PathParam("userid") int userId) {
-        return userDAO.getUser(userId);
+    public User getUser(@PathParam("email") String email) {
+        return userDAO.getEmail(email);
     }
 
     //ex: localhost:8000/user/update {request body containing the updated user}

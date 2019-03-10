@@ -114,7 +114,6 @@ public class EventServiceImpl implements EventService {
     }
 
 
-    //TODO nicht sicher ob wir den Path userId oder mit eventId benutzen, muss noch server implementieren, um zu testen
 
 //    @PostMapping
 //    @Override

@@ -39,6 +39,21 @@ public class UserDAOImpl extends ObjectDAOImpl implements UserDAO {
     }
 
     @Override
+    public User getEmail(String email){
+        initTransaction();
+        transaction.begin();
+
+        User emailFromUser = entityManager.find(UserImpl.class, email);
+        if(emailFromUser == null) {
+            finishTransaction();
+            throw new IllegalArgumentException("User existiert nicht!");
+        }
+
+        finishTransaction();
+        return emailFromUser;
+
+    }
+    @Override
     public void updateUser(User user){
         initTransaction();
         transaction.begin();

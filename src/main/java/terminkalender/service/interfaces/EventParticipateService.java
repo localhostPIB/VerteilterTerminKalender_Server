@@ -5,7 +5,10 @@ import terminkalender.model.interfaces.EventParticipate;
 
 public interface EventParticipateService
 {
-	public EventParticipate addParticipated(EventParticipate eventParticipate);
+	/*public EventParticipate addParticipated(EventParticipate eventParticipate);
 	//public ResponseEntity<?> deleteParticipated(long eventId, int participatedUserId);
-	public ResponseEntity<?> deleteParticipated(long eventId);
+	public ResponseEntity<?> deleteParticipated(long eventId);*/
+    public EventParticipate addParticipated(EventParticipate eventParticipate);
+    public void deleteParticipated(int participatedUserId);
+
 }

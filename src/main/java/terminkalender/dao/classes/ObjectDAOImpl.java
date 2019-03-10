@@ -13,9 +13,9 @@ import java.sql.SQLException;
 public class ObjectDAOImpl implements ObjectDAO
 {
     static Connection connection;
-    protected EntityManagerFactory factory;
-    protected EntityManager entityManager;
-    protected EntityTransaction transaction;
+    EntityManagerFactory factory;
+    EntityManager entityManager;
+    EntityTransaction transaction;
 
     /**
      * Standard-konstruktor, erstelle die Verbindung mit dem Datenbank

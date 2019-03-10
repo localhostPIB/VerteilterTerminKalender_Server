@@ -5,10 +5,10 @@ import terminkalender.model.interfaces.Event;
 import java.util.List;
 
 public interface EventDAO extends ObjectDAO{
-    public int addEvent(Event event);
-    public Event getEvent(int eventId);
-    public void updateEvent(Event event);
-    public void deleteEvent(int eventId);
+    int addEvent(Event event);
+    Event getEvent(int eventId);
+    void updateEvent(Event event);
+    void deleteEvent(int eventId);
 
-    public List<Event> getAllEventFromUser(int userId);
+    List<Event> getAllEventFromUser(int userId);
 }
