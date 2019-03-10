@@ -18,4 +18,20 @@ public class EventParticipateDAOImpl extends ObjectDAOImpl implements EventParti
 
     }
 
+    /**
+     * DELETE ALL RECORDS FROM EVENT PARTICIPATE TABLE
+     */
+    @Override
+    public void removeAllEventParticipate() {
+        initTransaction();
+        transaction.begin();
+
+        entityManager
+                .createQuery("DELETE FROM EventParticipateImpl")
+                .executeUpdate();
+        transaction.commit();
+
+        finishTransaction();
+    }
+
 }

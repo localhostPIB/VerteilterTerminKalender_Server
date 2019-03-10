@@ -43,21 +43,21 @@ public class UserServiceImpl implements UserService
     @Produces(MediaType.APPLICATION_JSON)
     public User addUser(User user) {
         int newUserId = userDAO.addUser(user);
-        return userDAO.getUser(newUserId);
+        return userDAO.getUserById(newUserId);
     }
 
     //ex: localhost:8000/user/{email}
     /**
      * GET-endpoint for retrieving user
-     * @param email the id of the user wants to be retrieved
-     * @return the user having the userId
+     * @param email the email of the user wants to be retrieved
+     * @return the user having the email
      */
     @Override
     @GET
     @Path("{email}")
     @Produces({MediaType.APPLICATION_JSON})
     public User getUser(@PathParam("email") String email) {
-        return userDAO.getEmail(email);
+        return userDAO.getUserByEmail(email);
     }
 
     //ex: localhost:8000/user/update {request body containing the updated user}
@@ -74,81 +74,34 @@ public class UserServiceImpl implements UserService
         userDAO.updateUser(user);
     }
 
-    //ex: localhost:8000/user/delete/23
+    //TODO:DELETE USER BY ID / EMAIL??
+    //ex: localhost:8000/user/delete/{email}
     /**
      * DELETE-endpoint for deleting user
-     * @param email the id of the user wants to be deleted
+     * @param email the email of the user wants to be deleted
      */
     @Override
     @DELETE
     @Path("delete/{email}")
     public void deleteUser(@PathParam("email") String email) {
-        userDAO.deleteUser(email);
+        User toBeDeleted = userDAO.getUserByEmail(email);
+        userDAO.deleteUserById(toBeDeleted.getUserId());
     }
 
     //TODO: implement password so it is encrypted
-    //ex: localhost:8000/user/verify/25/h
+    //ex: localhost:8000/user/verify/{email}/{password}
     /**
      * GET-endpoint for verifying user credential
-     * @param email the id of the user wants to be deleted
-     * @param password the password of the user wants to be checked
+     * @param email the id of the user wants to be verified
+     * @param password the password of the user wants to be verified
      */
     @Override
     @GET
     @Path("/verify/{email}/{password}")
     @Produces({MediaType.TEXT_PLAIN})
-    public boolean verifyUser(@PathParam("email")String email, @PathParam("password")String password){
-        return userDAO.verifyUser(email, password);
+    public boolean verifyUser(@PathParam("email") String email, @PathParam("password") String password) {
+        User toBeVerified = userDAO.getUserByEmail(email);
+        return userDAO.verifyUser(toBeVerified.getUserId(), password);
     }
 
-
-
-
-
-//    @PostMapping
-//    @Override
-//    public User addUser(@RequestBody User user){
-//        return userRepository.save(user);
-//    }
-//
-//    //TODO password might be included
-//
-//    @GetMapping(path = {"/{userid}"})
-//    @Override
-//    public ResponseEntity<User> getUser(@PathVariable long userid){
-//        return userRepository.findById(userid)
-//                .map(record -> ResponseEntity.ok().body(record))
-//                .orElse(ResponseEntity.notFound().build());
-//    }
-
-
-
-
-//    @Override
-//    @PutMapping(value="/{userId}")
-//    public ResponseEntity<User> updateUser(@PathVariable("userId") long userId,
-//                                           @RequestBody User user){
-//        return userRepository.findById(userId)
-//                .map(record -> {
-//                    record.setName(user.getName());
-//                    record.setEmail(user.getEmail());
-//                    record.setLastName(user.getLastName());
-//                    record.setPassword(user.getPassword());
-//                    User updated = userRepository.save(record);
-//                    return ResponseEntity.ok().body(updated);
-//                }).orElse(ResponseEntity.notFound().build());
-//    }
-
-//    @Override
-//    @DeleteMapping(path ={"/{userId}"})
-//    public ResponseEntity<?> deleteUser(@PathVariable("userId") long userId) {
-//        return userRepository.findById(userId)
-//                .map(record -> {
-//                    userRepository.deleteById(userId);
-//                    return ResponseEntity.ok().build();
-//                }).orElse(ResponseEntity.notFound().build());
-//    }
-//
-//    @Override
-//
 }

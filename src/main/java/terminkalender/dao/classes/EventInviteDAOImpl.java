@@ -21,4 +21,20 @@ public class EventInviteDAOImpl extends ObjectDAOImpl implements EventInviteDAO 
     public void deleteInvitation(int eventId, int invitedUserId){
 
     }
+
+    /**
+     * DELETE ALL RECORDS FROM EVENT INVITE TABLE
+     */
+    @Override
+    public void removeAllEventInvite() {
+        initTransaction();
+        transaction.begin();
+
+        entityManager
+                .createQuery("DELETE FROM EventInviteImpl")
+                .executeUpdate();
+        transaction.commit();
+
+        finishTransaction();
+    }
 }

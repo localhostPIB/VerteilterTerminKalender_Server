@@ -20,4 +20,20 @@ public class EventDeclineDAOImpl extends ObjectDAOImpl implements EventDeclineDA
     public void deleteDecline(int eventId, int declineUserId){
 
     }
+
+    /**
+     * DELETE ALL RECORDS FROM EVENT DECLINE TABLE
+     */
+    @Override
+    public void removeAllEventDecline() {
+        initTransaction();
+        transaction.begin();
+
+        entityManager
+                .createQuery("DELETE FROM EventDeclineImpl")
+                .executeUpdate();
+        transaction.commit();
+
+        finishTransaction();
+    }
 }

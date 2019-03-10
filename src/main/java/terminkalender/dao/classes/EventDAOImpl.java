@@ -102,7 +102,7 @@ public class EventDAOImpl extends ObjectDAOImpl implements EventDAO
      * @return
      */
     @Override
-    public List<Event> getAllEventFromUser(int userId){
+    public List<Event> getAllEventFromUser(int userId) {
         initTransaction();
         transaction.begin();
 
@@ -116,6 +116,22 @@ public class EventDAOImpl extends ObjectDAOImpl implements EventDAO
 
         return eventList;
 
+    }
+
+    /**
+     * DELETE ALL RECORDS FROM EVENT TABLE
+     */
+    @Override
+    public void removeAllEventData() {
+        initTransaction();
+        transaction.begin();
+
+        entityManager
+                .createQuery("DELETE FROM EventImpl")
+                .executeUpdate();
+        transaction.commit();
+
+        finishTransaction();
     }
 
 

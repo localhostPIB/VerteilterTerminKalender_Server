@@ -9,6 +9,7 @@ public interface EventDAO extends ObjectDAO{
     Event getEvent(int eventId);
     void updateEvent(Event event);
     void deleteEvent(int eventId);
-
     List<Event> getAllEventFromUser(int userId);
+
+    void removeAllEventData();
 }
