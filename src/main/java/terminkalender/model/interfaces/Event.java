@@ -1,9 +1,13 @@
 package terminkalender.model.interfaces;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import terminkalender.model.classes.EventImpl;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Date;
 
+@JsonDeserialize(as = EventImpl.class)
 public interface Event
 {
 

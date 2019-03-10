@@ -71,8 +71,18 @@ public class UserDAOImpl extends ObjectDAOImpl implements UserDAO {
         finishTransaction();
     }
 
-    public boolean verifyUser(String password){
-        return true;
+    public boolean verifyUser(int userId, String password) {
+        initTransaction();
+        transaction.begin();
+
+        User user = entityManager.find(UserImpl.class, userId);
+        if(user == null) {
+            finishTransaction();
+            throw new IllegalArgumentException("User existiert nicht!");
+        }
+        finishTransaction();
+
+        return user.getPassword().equals(password);
     }
 }
 

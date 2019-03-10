@@ -103,7 +103,19 @@ public class EventDAOImpl extends ObjectDAOImpl implements EventDAO
      */
     @Override
     public List<Event> getAllEventFromUser(int userId){
-        return null;
+        initTransaction();
+        transaction.begin();
+
+        List<Event> eventList = entityManager
+                .createQuery("SELECT e FROM EventImpl e WHERE e.userId = :userId", Event.class)
+                .setParameter("userId", userId)
+                .getResultList();
+
+        transaction.commit();
+        finishTransaction();
+
+        return eventList;
+
     }
 
 

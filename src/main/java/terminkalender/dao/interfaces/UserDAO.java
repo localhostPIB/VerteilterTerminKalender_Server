@@ -7,6 +7,5 @@ public interface UserDAO extends ObjectDAO{
     public User getUser(int userId);
     public void updateUser(User user);
     public void deleteUser(int userId);
-
-    public boolean verifyUser(String password);
+    public boolean verifyUser(int userId, String password);
 }

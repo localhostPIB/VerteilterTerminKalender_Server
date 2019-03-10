@@ -7,6 +7,8 @@ import terminkalender.service.classes.*;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  *
@@ -14,18 +16,22 @@ import java.net.URI;
 public class ServiceLauncher {
     public static void main(String[] args) throws InterruptedException, IOException {
         String baseUrl = (args.length > 0) ? args[0] : "http://localhost:8000";
+
+        //TODO: add all service classes to the set and instantiate them
+        Set<Class<?>> ServiceClasses = new HashSet<>();
+        ServiceClasses.add(new UserServiceImpl().getClass());
+        ServiceClasses.add(new EventServiceImpl().getClass());
+//        ServiceClasses.add(new EventDeclineServiceImpl().getClass());
+//        ServiceClasses.add(new EventInviteServiceImpl().getClass());
+//        ServiceClasses.add(new EventPaticipateServiceImpl().getClass());
+
         ResourceConfig rc = new ResourceConfig();
-        //rc.registerInstances(new UserRessource(), new UserRessource2()); //TODO: DELETE THIS LINE AFTER TESTING
-        rc.registerInstances(new EventDeclineServiceImpl(), new EventInviteServiceImpl(), new EventPaticipateServiceImpl(), new EventServiceImpl(), new UserServiceImpl());
+        rc.registerClasses(ServiceClasses);
 
-        final HttpServer server = GrizzlyHttpServerFactory.createHttpServer(URI.create(baseUrl), rc, false);
+        final HttpServer server = GrizzlyHttpServerFactory
+                                        .createHttpServer(URI.create(baseUrl), rc);
 
-        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-            @Override
-            public void run() {
-                server.shutdownNow();
-            }
-        }));
+        Runtime.getRuntime().addShutdownHook(new Thread(server::shutdownNow));
         server.start();
 
         System.out.println("Server start");

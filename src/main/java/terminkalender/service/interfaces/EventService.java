@@ -1,6 +1,5 @@
 package terminkalender.service.interfaces;
 
-import org.springframework.http.ResponseEntity;
 import terminkalender.model.interfaces.Event;
 
 import java.util.List;
@@ -8,11 +7,8 @@ import java.util.List;
 public interface EventService
 {
 	public Event addEvent(Event event);
-	public ResponseEntity<Event> getEvent(long eventId);
-	public ResponseEntity<Event> updateEvent(long eventId, Event event);
-	public ResponseEntity<?> deleteEvent(long eventId);
-
-	public List<Event> getAllEventFromUser(int userId);
-
-
+	public Event getEvent(int eventId);
+	public void updateEvent(Event event);
+	public void deleteEvent(int eventId);
+	public String getAllEventFromUser(int userId);
 }

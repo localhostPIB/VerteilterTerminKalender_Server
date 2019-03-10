@@ -1,5 +1,9 @@
 package terminkalender.model.interfaces;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import terminkalender.model.classes.UserImpl;
+
+@JsonDeserialize(as = UserImpl.class)
 public interface User
 {
 

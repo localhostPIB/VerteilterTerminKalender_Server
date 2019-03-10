@@ -1,117 +1,154 @@
 package terminkalender.service.classes;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import terminkalender.builders.DAOObjectBuilder;
 import terminkalender.dao.interfaces.UserDAO;
+import terminkalender.exceptions.ObjectIstNullException;
 import terminkalender.model.interfaces.User;
 import terminkalender.service.interfaces.UserService;
-import terminkalender.service.RepositoriesInterface.UserRepository;
+import terminkalender.validators.ObjectValidator;
 
-@RestController
-@RequestMapping("/user")
-public class UserServiceImpl implements UserService {
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+
+/**
+ * Resource class for User-Object
+ */
+@Path(UserServiceImpl.webContextPath)
+public class UserServiceImpl implements UserService
+{
 
     private UserDAO userDAO;
+    static final String webContextPath ="user";
 
-    @Autowired
-    private UserRepository userRepository;
+    private UserServiceImpl(UserDAO userDAO) throws ObjectIstNullException {
+        ObjectValidator.checkObObjectNullIst(userDAO);
+        this.userDAO = userDAO;
+    }
 
-    /*@POST
-    @Path("{addUser}")
+    public UserServiceImpl() throws ObjectIstNullException {
+        this(DAOObjectBuilder.getUserDaoObject());
+    }
+
+    //ex: localhost:8000/user/add {request body containing the new user}
+    /**
+     * POST-endpoint for adding new user
+     * request body should contain user object WITHOUT the id
+     * @param user the new user to be added
+     * @return the new user after stored in the database and given id
+     */
     @Override
-    @Produces(MediaType.APPLICATION_JSON)
+    @POST
+    @Path("add")
     @Consumes(MediaType.APPLICATION_JSON)
-    public int addUser(@PathParam("addUser") int userId){
-        return 0;
-    }*/
+    @Produces(MediaType.APPLICATION_JSON)
+    public User addUser(User user) {
+        int newUserId = userDAO.addUser(user);
+        return userDAO.getUser(newUserId);
+    }
 
-
-    /*@GET
+    //ex: localhost:8000/user/23
+    /**
+     * GET-endpoint for retrieving user
+     * @param userId the id of the user wants to be retrieved
+     * @return the user having the userId
+     */
+    @Override
+    @GET
     @Path("{userid}")
     @Produces({MediaType.APPLICATION_JSON})
-    @Override
-    public Response getUser(@QueryParam("userid") int userId) {
-        Response response;
-        System.out.println("Request: " + userId);
-        JSONArray result = new JSONArray();
-        JSONObject jsonObject =  new JSONObject();
-
-        try {
-            User user = userDAO.getUser(userId);
-
-            jsonObject.put("UserId", user.getUserId());
-            jsonObject.put("Name ", user.getName());
-            jsonObject.put("LastName", user.getLastName());
-            jsonObject.put("Email", user.getEmail());
-            result.put(jsonObject);
-            response = Response.status(200).entity(result.toString()).build();
-        } catch (IllegalArgumentException e){
-            jsonObject.put("Message", e);
-            result.put(jsonObject);
-            response = Response.status(404).entity(result.toString()).build();
-        }
-        return response;
-    }*/
-
-    @PostMapping
-    @Override
-    public User addUser(@RequestBody User user){
-        return userRepository.save(user);
+    public User getUser(@PathParam("userid") int userId) {
+        return userDAO.getUser(userId);
     }
 
-    //TODO password might be included
-
-    @GetMapping(path = {"/{userid}"})
+    //ex: localhost:8000/user/update {request body containing the updated user}
+    /**
+     * PUT-endpoint for updating user
+     * request body should contain user object WITH the id
+     * @param user the user wants to be updated
+     */
     @Override
-    public ResponseEntity<User> getUser(@PathVariable long userid){
-        return userRepository.findById(userid)
-                .map(record -> ResponseEntity.ok().body(record))
-                .orElse(ResponseEntity.notFound().build());
-    }
-
-
-    /*@PUT
-    @Path("{userid}")
+    @PUT
+    @Path("update")
     @Consumes({MediaType.APPLICATION_JSON})
-    @Override
-    public void updateUser(@PathParam("userid") int userId){
-
-    }*/
-
-    @Override
-    @PutMapping(value="/{userId}")
-    public ResponseEntity<User> updateUser(@PathVariable("userId") long userId,
-                                           @RequestBody User user){
-        return userRepository.findById(userId)
-                .map(record -> {
-                    record.setName(user.getName());
-                    record.setEmail(user.getEmail());
-                    record.setLastName(user.getLastName());
-                    record.setPassword(user.getPassword());
-                    User updated = userRepository.save(record);
-                    return ResponseEntity.ok().body(updated);
-                }).orElse(ResponseEntity.notFound().build());
+    public void updateUser(User user) {
+        userDAO.updateUser(user);
     }
 
-    /*@DELETE
+    //ex: localhost:8000/user/delete/23
+    /**
+     * DELETE-endpoint for deleting user
+     * @param userId the id of the user wants to be deleted
+     */
     @Override
-    public void deleteUser( int userId){
-
-    }*/
-
-    @Override
-    @DeleteMapping(path ={"/{userId}"})
-    public ResponseEntity<?> deleteUser(@PathVariable("userId") long userId) {
-        return userRepository.findById(userId)
-                .map(record -> {
-                    userRepository.deleteById(userId);
-                    return ResponseEntity.ok().build();
-                }).orElse(ResponseEntity.notFound().build());
+    @DELETE
+    @Path("delete/{userid}")
+    public void deleteUser(@PathParam("userid") int userId) {
+        userDAO.deleteUser((int)userId);
     }
 
+    //TODO: implement password so it is encrypted
+    //ex: localhost:8000/user/verify/25/h
+    /**
+     * GET-endpoint for verifying user credential
+     * @param userId the id of the user wants to be deleted
+     * @param password the password of the user wants to be checked
+     */
     @Override
-    public boolean verifyUser(String password){
-        return true;
+    @GET
+    @Path("/verify/{userid}/{password}")
+    @Produces({MediaType.TEXT_PLAIN})
+    public boolean verifyUser(@PathParam("userid")int userId, @PathParam("password")String password){
+        return userDAO.verifyUser(userId, password);
     }
+
+
+
+
+
+//    @PostMapping
+//    @Override
+//    public User addUser(@RequestBody User user){
+//        return userRepository.save(user);
+//    }
+//
+//    //TODO password might be included
+//
+//    @GetMapping(path = {"/{userid}"})
+//    @Override
+//    public ResponseEntity<User> getUser(@PathVariable long userid){
+//        return userRepository.findById(userid)
+//                .map(record -> ResponseEntity.ok().body(record))
+//                .orElse(ResponseEntity.notFound().build());
+//    }
+
+
+
+
+//    @Override
+//    @PutMapping(value="/{userId}")
+//    public ResponseEntity<User> updateUser(@PathVariable("userId") long userId,
+//                                           @RequestBody User user){
+//        return userRepository.findById(userId)
+//                .map(record -> {
+//                    record.setName(user.getName());
+//                    record.setEmail(user.getEmail());
+//                    record.setLastName(user.getLastName());
+//                    record.setPassword(user.getPassword());
+//                    User updated = userRepository.save(record);
+//                    return ResponseEntity.ok().body(updated);
+//                }).orElse(ResponseEntity.notFound().build());
+//    }
+
+//    @Override
+//    @DeleteMapping(path ={"/{userId}"})
+//    public ResponseEntity<?> deleteUser(@PathVariable("userId") long userId) {
+//        return userRepository.findById(userId)
+//                .map(record -> {
+//                    userRepository.deleteById(userId);
+//                    return ResponseEntity.ok().build();
+//                }).orElse(ResponseEntity.notFound().build());
+//    }
+//
+//    @Override
+//
 }
