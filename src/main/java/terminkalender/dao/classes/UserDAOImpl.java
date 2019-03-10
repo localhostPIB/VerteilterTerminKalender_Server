@@ -71,11 +71,11 @@ public class UserDAOImpl extends ObjectDAOImpl implements UserDAO {
     }
 
     @Override
-    public void deleteUser(int userId){
+    public void deleteUser(String email){
         initTransaction();
         transaction.begin();
 
-        User user = entityManager.find(UserImpl.class, userId);
+        User user = entityManager.find(UserImpl.class, email);
         if(user == null) {
             finishTransaction();
             throw new IllegalArgumentException("User existiert nicht!");
@@ -86,11 +86,11 @@ public class UserDAOImpl extends ObjectDAOImpl implements UserDAO {
         finishTransaction();
     }
 
-    public boolean verifyUser(int userId, String password) {
+    public boolean verifyUser(String email, String password) {
         initTransaction();
         transaction.begin();
 
-        User user = entityManager.find(UserImpl.class, userId);
+        User user = entityManager.find(UserImpl.class, email);
         if(user == null) {
             finishTransaction();
             throw new IllegalArgumentException("User existiert nicht!");

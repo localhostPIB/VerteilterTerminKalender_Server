@@ -77,28 +77,28 @@ public class UserServiceImpl implements UserService
     //ex: localhost:8000/user/delete/23
     /**
      * DELETE-endpoint for deleting user
-     * @param userId the id of the user wants to be deleted
+     * @param email the id of the user wants to be deleted
      */
     @Override
     @DELETE
-    @Path("delete/{userid}")
-    public void deleteUser(@PathParam("userid") int userId) {
-        userDAO.deleteUser((int)userId);
+    @Path("delete/{email}")
+    public void deleteUser(@PathParam("email") String email) {
+        userDAO.deleteUser(email);
     }
 
     //TODO: implement password so it is encrypted
     //ex: localhost:8000/user/verify/25/h
     /**
      * GET-endpoint for verifying user credential
-     * @param userId the id of the user wants to be deleted
+     * @param email the id of the user wants to be deleted
      * @param password the password of the user wants to be checked
      */
     @Override
     @GET
-    @Path("/verify/{userid}/{password}")
+    @Path("/verify/{email}/{password}")
     @Produces({MediaType.TEXT_PLAIN})
-    public boolean verifyUser(@PathParam("userid")int userId, @PathParam("password")String password){
-        return userDAO.verifyUser(userId, password);
+    public boolean verifyUser(@PathParam("email")String email, @PathParam("password")String password){
+        return userDAO.verifyUser(email, password);
     }
 
 

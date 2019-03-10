@@ -8,6 +8,6 @@ public interface UserService
 	public User addUser (User user);
 	public User getUser (String email);
 	public void updateUser(User user);
-	public void deleteUser(int userId);
-	public boolean verifyUser(int userId, String password);
+	public void deleteUser(String email);
+	public boolean verifyUser(String email, String password);
 }
