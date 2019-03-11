@@ -19,7 +19,7 @@ public class UserImpl implements User
 	private int userId;
 
 	@Column(name = "password")
-	@JsonProperty(access = Access.WRITE_ONLY)
+	//@JsonProperty(access = Access.WRITE_ONLY)
 	private String password;
 
 	@Column(name = "name")

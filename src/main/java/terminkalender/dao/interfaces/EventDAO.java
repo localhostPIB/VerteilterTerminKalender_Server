@@ -11,7 +11,7 @@ public interface EventDAO extends ObjectDAO{
     void updateEvent(Event event);
     void deleteEvent(int eventId);
     List<Event> getAllEventFromUser(int userId);
-    List<Event> getEventBetweenDate(int userId, LocalDateTime startDate, LocalDateTime endDate);
+    List<Event> getEventBetweenDate(int userId, String startDate, String endDate);
 
     void removeAllEventData();
 }

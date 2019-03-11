@@ -3,6 +3,7 @@ package terminkalender.dao.classes;
 import terminkalender.dao.interfaces.EventDAO;
 import terminkalender.model.classes.EventImpl;
 import terminkalender.model.interfaces.Event;
+import terminkalender.util.util;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -121,10 +122,11 @@ public class EventDAOImpl extends ObjectDAOImpl implements EventDAO
     }
 
     @Override
-    public List<Event> getEventBetweenDate(int userId, LocalDateTime startDate, LocalDateTime endDate) {
+    public List<Event> getEventBetweenDate(int userId, String startDate, String endDate) {
         List<Event> eventList = getAllEventFromUser(userId);
         return eventList.stream()
-                        .filter(e->e.getStartTime().isAfter(startDate) && e.getStartTime().isBefore(endDate))
+                        .filter(e->e.getStartTime().isAfter(util.convertStringToTime(startDate))
+                                && e.getStartTime().isBefore(util.convertStringToTime(endDate)))
                         .collect(Collectors.toList());
     }
 

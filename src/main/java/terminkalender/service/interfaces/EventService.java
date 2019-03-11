@@ -11,4 +11,5 @@ public interface EventService
 	public void updateEvent(Event event);
 	public void deleteEvent(int eventId);
 	public String getAllEventFromUser(int userId);
+	public String getEventListFromUser(int userId, String startDate, String endDate);
 }

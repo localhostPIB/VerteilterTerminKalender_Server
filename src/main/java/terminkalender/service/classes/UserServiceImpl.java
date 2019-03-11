@@ -75,6 +75,7 @@ public class UserServiceImpl implements UserService
     }
 
     //TODO:DELETE USER BY ID / EMAIL??
+    //204 error
     //ex: localhost:8000/user/delete/{email}
     /**
      * DELETE-endpoint for deleting user
