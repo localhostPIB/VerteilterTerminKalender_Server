@@ -11,6 +11,7 @@ import terminkalender.validators.ObjectValidator;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -109,4 +110,23 @@ public class EventServiceImpl implements EventService {
         }
         return eventlist;
     }
+
+    @Override
+    @GET
+    @Path("eventlist/{userid}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public  String getEventListFromUser(@PathParam("userid") int userId, @QueryParam("startdate")String startDate, @QueryParam("enddate") String endDate){
+        String eventlist = "";
+        List<Event> events = eventDAO.getEventBetweenDate(userId, startDate, endDate);
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            eventlist = objectMapper.writeValueAsString(events);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return eventlist;
+
+    }
+
+
 }
