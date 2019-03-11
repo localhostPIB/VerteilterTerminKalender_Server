@@ -7,12 +7,16 @@ import terminkalender.dao.interfaces.EventDAO;
 import terminkalender.exceptions.ObjectIstNullException;
 import terminkalender.model.interfaces.Event;
 import terminkalender.service.interfaces.EventService;
+import terminkalender.util.util;
 import terminkalender.validators.ObjectValidator;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * Resource class for Event-Object
@@ -100,32 +104,53 @@ public class EventServiceImpl implements EventService {
     @Path("user/{userid}")
     @Produces(MediaType.APPLICATION_JSON)
     public String getAllEventFromUser(@PathParam("userid") int userId) {
-        String eventlist = "";
-        List<Event> events = eventDAO.getAllEventFromUser(userId);
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            eventlist = objectMapper.writeValueAsString(events);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        return eventlist;
+        List<Event> eventList = eventDAO.getAllEventFromUser(userId);
+        return convertListEventToJSON(eventList);
     }
 
+    //ex: localhost:8000/event/eventlist/{userid}?startdate=...&enddate=...
+    /**
+     * GET-endpoint for retrieving all events from certain user between dates in query parameter
+     * @param userId the id of user whose event wants to be retrieved
+     * @param startDate events returned must have start time AFTER / EQUALS this startDate
+     * @param endDate events returned must have start time BEFORE / EQUALS this endDate
+     * @return eventlist json-string containing list of events from the userId
+     */
     @Override
     @GET
     @Path("eventlist/{userid}")
     @Produces(MediaType.APPLICATION_JSON)
-    public  String getEventListFromUser(@PathParam("userid") int userId, @QueryParam("startdate")String startDate, @QueryParam("enddate") String endDate){
-        String eventlist = "";
-        List<Event> events = eventDAO.getEventBetweenDate(userId, startDate, endDate);
+    public String getEventListFromUser(@PathParam("userid") int userId, @QueryParam("startdate")String startDate, @QueryParam("enddate") String endDate){
+        List<Event> eventList = eventDAO.getAllEventFromUser(userId);
+
+        LocalDate startQuery = util.convertStringToDate(startDate);
+        LocalDate endQuery = util.convertStringToDate(endDate);
+        Predicate<Event> betweenTwoDates = e ->
+                e.getStartTime().toLocalDate().isAfter(startQuery) || e.getStartTime().toLocalDate().isEqual(startQuery)
+             && e.getStartTime().toLocalDate().isBefore(endQuery)  || e.getStartTime().toLocalDate().isEqual(endQuery);
+
+        eventList = eventList.stream()
+                             .filter(betweenTwoDates)
+                             .collect(Collectors.toList());
+
+
+        return convertListEventToJSON(eventList);
+    }
+
+    /**
+     * Helpfunction, convert List of events object to JSON string to be returned to client
+     * @param eventList List containing all events
+     * @return JSON String
+     */
+    private String convertListEventToJSON(List<Event> eventList) {
+        String eventListAsJSON = "";
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            eventlist = objectMapper.writeValueAsString(events);
+            eventListAsJSON = objectMapper.writeValueAsString(eventList);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        return eventlist;
-
+        return eventListAsJSON;
     }
 
 
