@@ -1,6 +1,11 @@
 package terminkalender.dao.interfaces;
 
+import terminkalender.model.interfaces.EventInvite;
+
 public interface EventInviteDAO extends ObjectDAO{
-    public void addInvitation(int eventId, int invitedUserId);
-    public void deleteInvitation(int eventId, int invitedUserId);
+    int addEventInvite(EventInvite eventInvite);
+    void deleteEventInvite(int inviteId);
+    EventInvite getEventInvite(int userId);
+
+    void removeAllEventInvite();
 }

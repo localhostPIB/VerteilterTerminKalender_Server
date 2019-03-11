@@ -1,47 +1,57 @@
 package terminkalender.service.classes;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import terminkalender.builders.DAOObjectBuilder;
 import terminkalender.dao.interfaces.EventInviteDAO;
+import terminkalender.exceptions.ObjectIstNullException;
 import terminkalender.model.interfaces.EventInvite;
-import terminkalender.service.RepositoriesInterface.EventInviteRepository;
 import terminkalender.service.interfaces.EventInviteService;
+import terminkalender.validators.ObjectValidator;
 
-@RestController
-@RequestMapping("/invitation")
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+
+@Path(EventInviteServiceImpl.webContextPath)
 public class EventInviteServiceImpl implements EventInviteService {
 
     private EventInviteDAO eventInviteDAO;
+    static final String webContextPath = "invitation";
 
-    @Autowired
-    private EventInviteRepository eventInviteRepository;
+    private  EventInviteServiceImpl(EventInviteDAO eventInviteDAO) throws ObjectIstNullException{
+        ObjectValidator.checkObObjectNullIst(eventInviteDAO);
+        this.eventInviteDAO = eventInviteDAO;
+    }
 
-
-  /*  @Override
-    public void addInvitation(int eventId, int invitedUserId){
-
+    private  EventInviteServiceImpl() throws  ObjectIstNullException{
+        this (DAOObjectBuilder.getEventInviteDaoObject());
     }
 
     @Override
-    public void deleteInvitation(int eventId, int invitedUserId){
+    @POST
+    @Path("add")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public EventInvite addInvitation(EventInvite eventInvite){
+        int newInviteId = eventInviteDAO.addEventInvite(eventInvite);
+        return  eventInviteDAO.getEventInvite(newInviteId);
+    }
 
-    }*/
 
-  @PostMapping
-  @Override
-  public EventInvite addInvitation(@RequestBody EventInvite eventInvite){
-      return eventInviteRepository.save(eventInvite);
-  }
+    @Override
+    @GET
+    @Path("{userid}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public EventInvite getInvitation(@PathParam("userid") int userId){
+            return eventInviteDAO.getEventInvite(userId);
+    }
 
-  @DeleteMapping(path = "/userId")
-  @Override
-  public ResponseEntity<?> deleteInvitation(@PathVariable("userId") long invitedUserId) {
-      return eventInviteRepository.findById(invitedUserId)
-              .map(record -> {
-                  eventInviteRepository.deleteById(invitedUserId);
-                  return ResponseEntity.ok().build();
-              }).orElse(ResponseEntity.notFound().build());
-  }
+
+
+    @Override
+    @DELETE
+    @Path("delete/{inviteid}")
+    public void deleteInvitation(@PathParam("inviteid") int inviteId){
+            eventInviteDAO.deleteEventInvite(inviteId);
+    }
+
 
 }

@@ -2,6 +2,7 @@ package terminkalender.dao.interfaces;
 
 import terminkalender.model.interfaces.Event;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface EventDAO extends ObjectDAO{
@@ -9,6 +10,7 @@ public interface EventDAO extends ObjectDAO{
     Event getEvent(int eventId);
     void updateEvent(Event event);
     void deleteEvent(int eventId);
-
     List<Event> getAllEventFromUser(int userId);
+
+    void removeAllEventData();
 }

@@ -1,13 +1,7 @@
 package terminkalender.builders;
 
-import terminkalender.dao.classes.EventDAOImpl;
-import terminkalender.dao.classes.EventInviteDAOImpl;
-import terminkalender.dao.classes.EventParticipateDAOImpl;
-import terminkalender.dao.classes.UserDAOImpl;
-import terminkalender.dao.interfaces.EventDAO;
-import terminkalender.dao.interfaces.EventInviteDAO;
-import terminkalender.dao.interfaces.EventParticipateDAO;
-import terminkalender.dao.interfaces.UserDAO;
+import terminkalender.dao.classes.*;
+import terminkalender.dao.interfaces.*;
 
 public class DAOObjectBuilder {
 
@@ -25,5 +19,9 @@ public class DAOObjectBuilder {
 
     public  static EventInviteDAO getEventInviteDaoObject(){
         return new EventInviteDAOImpl();
+    }
+
+    public  static EventDeclineDAO getEventDeclineDaoObject(){
+        return new EventDeclineDAOImpl();
     }
 }

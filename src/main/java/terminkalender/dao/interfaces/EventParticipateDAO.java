@@ -1,6 +1,11 @@
 package terminkalender.dao.interfaces;
 
+import terminkalender.model.interfaces.EventParticipate;
+
 public interface EventParticipateDAO {
-    public void addParticipated(int eventId, int participatedUserId);
-    public void deleteParticipated(int eventId, int participatedUserId);
+    int addEventParticipate(EventParticipate eventParticipate);
+    void deleteEventParticipate(int participateId);
+    EventParticipate getEventParticipate(int userId);
+
+    void removeAllEventParticipate();
 }

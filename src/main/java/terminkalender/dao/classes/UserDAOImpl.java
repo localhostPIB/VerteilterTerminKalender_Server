@@ -4,6 +4,8 @@ import terminkalender.dao.interfaces.UserDAO;
 import terminkalender.model.classes.UserImpl;
 import terminkalender.model.interfaces.User;
 
+import javax.persistence.Query;
+
 public class UserDAOImpl extends ObjectDAOImpl implements UserDAO {
 
     public UserDAOImpl(){
@@ -24,7 +26,7 @@ public class UserDAOImpl extends ObjectDAOImpl implements UserDAO {
     }
 
     @Override
-    public User getUser(int userId){
+    public User getUserById(int userId){
         initTransaction();
         transaction.begin();
 
@@ -39,18 +41,21 @@ public class UserDAOImpl extends ObjectDAOImpl implements UserDAO {
     }
 
     @Override
-    public User getEmail(String email){
+    public User getUserByEmail(String email){
         initTransaction();
         transaction.begin();
 
-        User emailFromUser = entityManager.find(UserImpl.class, email);
-        if(emailFromUser == null) {
+        User user = entityManager
+                        .createQuery("SELECT u FROM UserImpl u where u.email = :email", User.class)
+                        .setParameter("email", email)
+                        .getSingleResult();
+        if(user == null) {
             finishTransaction();
             throw new IllegalArgumentException("User existiert nicht!");
         }
 
         finishTransaction();
-        return emailFromUser;
+        return user;
 
     }
     @Override
@@ -71,11 +76,11 @@ public class UserDAOImpl extends ObjectDAOImpl implements UserDAO {
     }
 
     @Override
-    public void deleteUser(String email){
+    public void deleteUserById(int userId) {
         initTransaction();
         transaction.begin();
 
-        User user = entityManager.find(UserImpl.class, email);
+        User user = entityManager.find(UserImpl.class, userId);
         if(user == null) {
             finishTransaction();
             throw new IllegalArgumentException("User existiert nicht!");
@@ -86,11 +91,12 @@ public class UserDAOImpl extends ObjectDAOImpl implements UserDAO {
         finishTransaction();
     }
 
-    public boolean verifyUser(String email, String password) {
+    @Override
+    public boolean verifyUser(int userId, String password) {
         initTransaction();
         transaction.begin();
 
-        User user = entityManager.find(UserImpl.class, email);
+        User user = entityManager.find(UserImpl.class, userId);
         if(user == null) {
             finishTransaction();
             throw new IllegalArgumentException("User existiert nicht!");
@@ -98,6 +104,22 @@ public class UserDAOImpl extends ObjectDAOImpl implements UserDAO {
         finishTransaction();
 
         return user.getPassword().equals(password);
+    }
+
+    /**
+     * DELETE ALL RECORDS FROM USER TABLE
+     */
+    @Override
+    public void removeAllUserData() {
+        initTransaction();
+        transaction.begin();
+
+        entityManager
+                .createQuery("DELETE FROM UserImpl")
+                .executeUpdate();
+        transaction.commit();
+
+        finishTransaction();
     }
 }
 

@@ -3,44 +3,62 @@ package terminkalender.service.classes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import terminkalender.builders.DAOObjectBuilder;
 import terminkalender.dao.interfaces.EventDeclineDAO;
+import terminkalender.dao.interfaces.EventParticipateDAO;
+import terminkalender.exceptions.ObjectIstNullException;
 import terminkalender.model.interfaces.EventDecline;
 import terminkalender.model.interfaces.EventParticipate;
 import terminkalender.service.RepositoriesInterface.EventDeclineRepository;
 import terminkalender.service.interfaces.EventDeclineService;
+import terminkalender.validators.ObjectValidator;
 
-@RestController
-@RequestMapping("/eventDecline")
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+
+@Path(EventDeclineServiceImpl.webContextPath)
 public class EventDeclineServiceImpl implements EventDeclineService {
 
     private EventDeclineDAO eventDeclineDAO;
+    static final String webContextPath = "decline";
 
-    @Autowired
-    private EventDeclineRepository eventDeclineRepository;
+    private EventDeclineServiceImpl (EventDeclineDAO eventDeclineDAO) throws ObjectIstNullException {
+        ObjectValidator.checkObObjectNullIst(eventDeclineDAO);
+        this.eventDeclineDAO = eventDeclineDAO;
+    }
 
-   /* @Override
-    public void addDecline(int eventId, int declinedUserId){
-
+    private  EventDeclineServiceImpl() throws  ObjectIstNullException{
+        this (DAOObjectBuilder.getEventDeclineDaoObject());
     }
 
     @Override
-    public void deleteDecline(int eventId, int declinedUserId){
+    @POST
+    @Path("add")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public EventDecline addDecline (EventDecline eventDecline){
+        int newDeclineId = eventDeclineDAO.addEventDecline(eventDecline);
+        return  eventDeclineDAO.getEventDecline(newDeclineId);
+    }
 
-    }*/
 
-   @PostMapping
-   @Override
-   public EventDecline addDecline (@RequestBody EventDecline eventDecline){
-       return eventDeclineRepository.save(eventDecline);
-   }
+    @Override
+    @GET
+    @Path("{userid}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public EventDecline getDecline(@PathParam("userid") int userId){
+        return eventDeclineDAO.getEventDecline(userId);
+    }
 
-   @DeleteMapping(path = "/eventId")
-   @Override
-   public ResponseEntity<?> deleteDecline(@PathVariable("eventId") long declinedUserId) {
-       return eventDeclineRepository.findById(declinedUserId)
-               .map(record -> {
-                   eventDeclineRepository.deleteById(declinedUserId);
-                   return ResponseEntity.ok().build();
-               }).orElse(ResponseEntity.notFound().build());
-   }
+
+
+    @Override
+    @DELETE
+    @Path("delete/{declineid}")
+    public void deleteDecline(@PathParam("declineid") int declineId){
+        eventDeclineDAO.deleteEventDecline(declineId);
+    }
+
+
+
 }

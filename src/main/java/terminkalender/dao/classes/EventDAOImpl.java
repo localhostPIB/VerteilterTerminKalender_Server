@@ -3,8 +3,13 @@ package terminkalender.dao.classes;
 import terminkalender.dao.interfaces.EventDAO;
 import terminkalender.model.classes.EventImpl;
 import terminkalender.model.interfaces.Event;
+import terminkalender.util.util;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class EventDAOImpl extends ObjectDAOImpl implements EventDAO
 {
@@ -102,7 +107,7 @@ public class EventDAOImpl extends ObjectDAOImpl implements EventDAO
      * @return
      */
     @Override
-    public List<Event> getAllEventFromUser(int userId){
+    public List<Event> getAllEventFromUser(int userId) {
         initTransaction();
         transaction.begin();
 
@@ -116,6 +121,22 @@ public class EventDAOImpl extends ObjectDAOImpl implements EventDAO
 
         return eventList;
 
+    }
+
+    /**
+     * DELETE ALL RECORDS FROM EVENT TABLE
+     */
+    @Override
+    public void removeAllEventData() {
+        initTransaction();
+        transaction.begin();
+
+        entityManager
+                .createQuery("DELETE FROM EventImpl")
+                .executeUpdate();
+        transaction.commit();
+
+        finishTransaction();
     }
 
 

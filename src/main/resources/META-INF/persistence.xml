@@ -5,6 +5,7 @@
              xmlns="http://java.sun.com/xml/ns/persistence">
     <persistence-unit name="database" transaction-type="RESOURCE_LOCAL">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <class>terminkalender.model.classes.EventDeclineImpl</class>
         <class>terminkalender.model.classes.EventImpl</class>
         <class>terminkalender.model.classes.EventInviteImpl</class>
         <class>terminkalender.model.classes.EventParticipateImpl</class>

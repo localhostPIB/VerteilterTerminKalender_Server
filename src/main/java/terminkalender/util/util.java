@@ -1,5 +1,6 @@
 package terminkalender.util;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -14,5 +15,9 @@ public class util
 	public static LocalDateTime convertStringToTime(String time) {
 		return LocalDateTime.parse(time, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
 							 .truncatedTo(ChronoUnit.MINUTES);
+	}
+
+	public static LocalDate convertStringToDate(String date) {
+		return LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE);
 	}
 }

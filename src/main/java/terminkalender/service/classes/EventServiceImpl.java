@@ -6,13 +6,17 @@ import terminkalender.builders.DAOObjectBuilder;
 import terminkalender.dao.interfaces.EventDAO;
 import terminkalender.exceptions.ObjectIstNullException;
 import terminkalender.model.interfaces.Event;
-import terminkalender.service.RepositoriesInterface.EventRepository;
 import terminkalender.service.interfaces.EventService;
+import terminkalender.util.util;
 import terminkalender.validators.ObjectValidator;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * Resource class for Event-Object
@@ -49,7 +53,7 @@ public class EventServiceImpl implements EventService {
         return eventDAO.getEvent(newEventId);
     }
 
-    //ex: localhost:8000/event/26
+    //ex: localhost:8000/event/{eventid}
     /**
      * GET-endpoint for retrieving event
      * @param eventId the id of the event wants to be retrieved
@@ -89,7 +93,7 @@ public class EventServiceImpl implements EventService {
         eventDAO.deleteEvent(eventId);
     }
 
-    //ex: localhost:8000/event/user/10
+    //ex: localhost:8000/event/user/{userid}
     /**
      * GET-endpoint for retrieving all events from certain user
      * @param userId the id of user whose event wants to be retrieved
@@ -100,64 +104,55 @@ public class EventServiceImpl implements EventService {
     @Path("user/{userid}")
     @Produces(MediaType.APPLICATION_JSON)
     public String getAllEventFromUser(@PathParam("userid") int userId) {
-        String eventlist = "";
-        List<Event> events = eventDAO.getAllEventFromUser(userId);
-        //return eventDAO.getAllEventFromUser(userId);
+        List<Event> eventList = eventDAO.getAllEventFromUser(userId);
+        return convertListEventToJSON(eventList);
+    }
+
+    //ex: localhost:8000/event/eventlist/{userid}?startdate=...&enddate=...
+    /**
+     * GET-endpoint for retrieving all events from certain user between dates in query parameter
+     * @param userId the id of user whose event wants to be retrieved
+     * DATE FORMAT : YYYY-MM-DD
+     * @param startDate events returned must have start time AFTER / EQUALS this startDate
+     * @param endDate events returned must have start time BEFORE / EQUALS this endDate
+     * @return eventlist json-string containing list of events from the userId
+     */
+    @Override
+    @GET
+    @Path("eventlist/{userid}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getEventListFromUser(@PathParam("userid") int userId, @QueryParam("startdate")String startDate, @QueryParam("enddate") String endDate){
+        List<Event> eventList = eventDAO.getAllEventFromUser(userId);
+
+        LocalDate startQuery = util.convertStringToDate(startDate);
+        LocalDate endQuery = util.convertStringToDate(endDate);
+        Predicate<Event> betweenTwoDates = e ->
+                (e.getStartTime().toLocalDate().isAfter(startQuery) || e.getStartTime().toLocalDate().isEqual(startQuery))
+             && (e.getStartTime().toLocalDate().isBefore(endQuery)  || e.getStartTime().toLocalDate().isEqual(endQuery));
+
+        eventList = eventList.stream()
+                             .filter(betweenTwoDates)
+                             .collect(Collectors.toList());
+
+
+        return convertListEventToJSON(eventList);
+    }
+
+    /**
+     * Helpfunction, convert List of events object to JSON string to be returned to client
+     * @param eventList List containing all events
+     * @return JSON String
+     */
+    private String convertListEventToJSON(List<Event> eventList) {
+        String eventListAsJSON = "";
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            eventlist = objectMapper.writeValueAsString(events);
-            //System.out.println("json = " + json);
+            eventListAsJSON = objectMapper.writeValueAsString(eventList);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        return eventlist;
+        return eventListAsJSON;
     }
 
 
-
-//    @PostMapping
-//    @Override
-//    public Event addEvent(@RequestBody Event event){
-//        return eventRepository.save(event);
-//    }
-//
-//    @PutMapping(value = "/{userId}")
-//    @Override
-//    public ResponseEntity<Event> updateEvent (@PathVariable("userId") long eventId,
-//                                           @RequestBody Event event){
-//        return eventRepository.findById(eventId)
-//                .map(record -> {
-//                    record.setEndTime(event.getEndTime());
-//                    record.setLocation(event.getLocation());
-//                    record.setNote(event.getNote());
-//                    record.setAllDay(event.isAllDay());
-//                    record.setStartTime(event.getStartTime());
-//                    record.setRepeat(event.getRepeat());
-//                    Event updated = eventRepository.save(record);
-//                    return ResponseEntity.ok().body(updated);
-//                }).orElse(ResponseEntity.notFound().build());
-//    }
-//
-//    @GetMapping(path = "/{userId}")
-//    @Override
-//    public ResponseEntity<Event> getEvent (@PathVariable long eventId){
-//        return eventRepository.findById(eventId)
-//                .map(record -> ResponseEntity.ok().body(record))
-//                .orElse(ResponseEntity.notFound().build());
-//    }
-//
-//    @DeleteMapping(path = "/{userId}")
-//    @Override
-//    public ResponseEntity<?> deleteEvent(@PathVariable("userId") long eventId) {
-//        return eventRepository.findById(eventId)
-//                .map(record -> {
-//                    eventRepository.deleteById(eventId);
-//                    return ResponseEntity.ok().build();
-//                }).orElse(ResponseEntity.notFound().build());
-//    }
-//
-//    @Override
-//    public List<Event> getAllEventFromUser(int userId){
-//        return null;
-//    }
 }
