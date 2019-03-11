@@ -124,9 +124,11 @@ public class EventDAOImpl extends ObjectDAOImpl implements EventDAO
     @Override
     public List<Event> getEventBetweenDate(int userId, String startDate, String endDate) {
         List<Event> eventList = getAllEventFromUser(userId);
+        LocalDateTime startQuery = util.convertStringToTime(startDate);
+        LocalDateTime endQuery = util.convertStringToTime(endDate);
         return eventList.stream()
-                        .filter(e->e.getStartTime().isAfter(util.convertStringToTime(startDate))
-                                && e.getStartTime().isBefore(util.convertStringToTime(endDate)))
+                        .filter(e -> (e.getStartTime().isAfter(startQuery) || e.getStartTime().isEqual(startQuery))
+                                   && e.getStartTime().isBefore(endQuery) || e.getStartTime().isEqual(endQuery))
                         .collect(Collectors.toList());
     }
 
