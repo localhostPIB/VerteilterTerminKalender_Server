@@ -17,7 +17,7 @@ public class util
 							 .truncatedTo(ChronoUnit.MINUTES);
 	}
 
-	public static LocalDate convertStringToDate(String time) {
-		return convertStringToTime(time).toLocalDate();
+	public static LocalDate convertStringToDate(String date) {
+		return LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE);
 	}
 }

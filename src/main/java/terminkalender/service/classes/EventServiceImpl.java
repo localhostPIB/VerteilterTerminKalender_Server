@@ -112,6 +112,7 @@ public class EventServiceImpl implements EventService {
     /**
      * GET-endpoint for retrieving all events from certain user between dates in query parameter
      * @param userId the id of user whose event wants to be retrieved
+     * DATE FORMAT : YYYY-MM-DD
      * @param startDate events returned must have start time AFTER / EQUALS this startDate
      * @param endDate events returned must have start time BEFORE / EQUALS this endDate
      * @return eventlist json-string containing list of events from the userId
@@ -126,8 +127,8 @@ public class EventServiceImpl implements EventService {
         LocalDate startQuery = util.convertStringToDate(startDate);
         LocalDate endQuery = util.convertStringToDate(endDate);
         Predicate<Event> betweenTwoDates = e ->
-                e.getStartTime().toLocalDate().isAfter(startQuery) || e.getStartTime().toLocalDate().isEqual(startQuery)
-             && e.getStartTime().toLocalDate().isBefore(endQuery)  || e.getStartTime().toLocalDate().isEqual(endQuery);
+                (e.getStartTime().toLocalDate().isAfter(startQuery) || e.getStartTime().toLocalDate().isEqual(startQuery))
+             && (e.getStartTime().toLocalDate().isBefore(endQuery)  || e.getStartTime().toLocalDate().isEqual(endQuery));
 
         eventList = eventList.stream()
                              .filter(betweenTwoDates)
