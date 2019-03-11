@@ -1,6 +1,7 @@
 package terminkalender.dao.classes;
 
 import terminkalender.dao.interfaces.EventDeclineDAO;
+import terminkalender.model.interfaces.EventDecline;
 
 public class EventDeclineDAOImpl extends ObjectDAOImpl implements EventDeclineDAO {
     public  EventDeclineDAOImpl(){
@@ -8,17 +9,23 @@ public class EventDeclineDAOImpl extends ObjectDAOImpl implements EventDeclineDA
     }
 
     @Override
-    public void addDecline(int eventId, int declineUserId){
+    public int addEventDecline(EventDecline eventDecline){
         initTransaction();
         transaction.begin();
 
-        entityManager.persist(eventId);
+        entityManager.persist(eventDecline);
         transaction.commit();
+        return 0;
     }
 
     @Override
-    public void deleteDecline(int eventId, int declineUserId){
+    public void deleteEventDecline(int declineId){
 
+    }
+
+    @Override
+    public EventDecline getEventDecline(int userId){
+        return null;
     }
 
     /**

@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import terminkalender.model.interfaces.EventDecline;
 
 public interface EventDeclineService {
-    public EventDecline addDecline(EventDecline eventDecline);
-    public ResponseEntity<?> deleteDecline(long declinedUserId);
+    EventDecline addDecline(EventDecline eventDecline);
+    EventDecline getDecline(int userId);
+    void deleteDecline(int declineId);
 }

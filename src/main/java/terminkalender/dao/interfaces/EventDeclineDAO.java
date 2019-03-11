@@ -1,8 +1,11 @@
 package terminkalender.dao.interfaces;
 
+import terminkalender.model.interfaces.EventDecline;
+
 public interface EventDeclineDAO extends ObjectDAO{
-    void addDecline(int eventId, int declineUserId);
-    void deleteDecline(int eventId, int declineUserId);
+    int  addEventDecline(EventDecline eventDecline);
+    void deleteEventDecline(int declineId);
+    EventDecline getEventDecline(int userId);
 
     void removeAllEventDecline();
 }
