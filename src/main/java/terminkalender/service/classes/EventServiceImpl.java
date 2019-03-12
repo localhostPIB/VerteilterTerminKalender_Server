@@ -1,7 +1,5 @@
 package terminkalender.service.classes;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import terminkalender.builders.DAOObjectBuilder;
 import terminkalender.dao.interfaces.EventDAO;
 import terminkalender.exceptions.ObjectIstNullException;
@@ -13,17 +11,18 @@ import terminkalender.validators.ObjectValidator;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+import static terminkalender.util.util.convertListEventToJSON;
 
 /**
  * Resource class for Event-Object
  */
 @Path(EventServiceImpl.webContextPath)
-public class EventServiceImpl implements EventService {
-
+public class EventServiceImpl implements EventService
+{
     private EventDAO eventDAO;
     static final String webContextPath ="event";
 
@@ -37,7 +36,7 @@ public class EventServiceImpl implements EventService {
     }
 
     //ex: localhost:8000/event/add {request body containing the new event}
-    /**
+    /** -------------------------------- POST --------------------------------
      * POST-endpoint for adding new event
      * request body should contain event object WITHOUT the id and WITHOUT the duration
      * @param event the new event to be added
@@ -54,7 +53,7 @@ public class EventServiceImpl implements EventService {
     }
 
     //ex: localhost:8000/event/{eventid}
-    /**
+    /** -------------------------------- GET --------------------------------
      * GET-endpoint for retrieving event
      * @param eventId the id of the event wants to be retrieved
      * @return the event having the eventId
@@ -67,34 +66,8 @@ public class EventServiceImpl implements EventService {
         return eventDAO.getEvent(eventId);
     }
 
-    //ex: localhost:8000/event/update {request body containing the updated event}
-    /**
-     * PUT-endpoint for updating event
-     * request body should contain user object WITH the id and WITHOUT the duration
-     * @param event the event wants to be updated
-     */
-    @Override
-    @PUT
-    @Path("update")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void updateEvent(Event event) {
-        eventDAO.updateEvent(event);
-    }
-
-    //ex: localhost:8000/event/delete/15
-    /**
-     * DELETE-endpoint for deleting event
-     * @param eventId the id of the event wants to be deleted
-     */
-    @Override
-    @DELETE
-    @Path("delete/{eventid}")
-    public void deleteEvent(@PathParam("eventid") int eventId) {
-        eventDAO.deleteEvent(eventId);
-    }
-
     //ex: localhost:8000/event/user/{userid}
-    /**
+    /** -------------------------------- GET --------------------------------
      * GET-endpoint for retrieving all events from certain user
      * @param userId the id of user whose event wants to be retrieved
      * @return eventlist json-string containing list of all events from the userId
@@ -109,7 +82,7 @@ public class EventServiceImpl implements EventService {
     }
 
     //ex: localhost:8000/event/eventlist/{userid}?startdate=...&enddate=...
-    /**
+    /** -------------------------------- GET --------------------------------
      * GET-endpoint for retrieving all events from certain user between dates in query parameter
      * @param userId the id of user whose event wants to be retrieved
      * DATE FORMAT : YYYY-MM-DD
@@ -121,7 +94,9 @@ public class EventServiceImpl implements EventService {
     @GET
     @Path("eventlist/{userid}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getEventListFromUser(@PathParam("userid") int userId, @QueryParam("startdate")String startDate, @QueryParam("enddate") String endDate){
+    public String getEventListFromUser(@PathParam("userid") int userId,
+                                       @QueryParam("startdate") String startDate,
+                                       @QueryParam("enddate") String endDate) {
         List<Event> eventList = eventDAO.getAllEventFromUser(userId);
 
         LocalDate startQuery = util.convertStringToDate(startDate);
@@ -131,28 +106,35 @@ public class EventServiceImpl implements EventService {
              && (e.getStartTime().toLocalDate().isBefore(endQuery)  || e.getStartTime().toLocalDate().isEqual(endQuery));
 
         eventList = eventList.stream()
-                             .filter(betweenTwoDates)
-                             .collect(Collectors.toList());
-
+                .filter(betweenTwoDates)
+                .collect(Collectors.toList());
 
         return convertListEventToJSON(eventList);
     }
 
-    /**
-     * Helpfunction, convert List of events object to JSON string to be returned to client
-     * @param eventList List containing all events
-     * @return JSON String
+    //ex: localhost:8000/event/update {request body containing the updated event}
+    /** -------------------------------- PUT --------------------------------
+     * PUT-endpoint for updating event
+     * request body should contain user object WITH the id and WITHOUT the duration
+     * @param event the event wants to be updated
      */
-    private String convertListEventToJSON(List<Event> eventList) {
-        String eventListAsJSON = "";
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            eventListAsJSON = objectMapper.writeValueAsString(eventList);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        return eventListAsJSON;
+    @Override
+    @PUT
+    @Path("update")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void updateEvent(Event event) {
+        eventDAO.updateEvent(event);
     }
 
-
+    //ex: localhost:8000/event/delete/{eventid}
+    /** -------------------------------- DELETE --------------------------------
+     * DELETE-endpoint for deleting event
+     * @param eventId the id of the event wants to be deleted
+     */
+    @Override
+    @DELETE
+    @Path("delete/{eventid}")
+    public void deleteEvent(@PathParam("eventid") int eventId) {
+        eventDAO.deleteEvent(eventId);
+    }
 }

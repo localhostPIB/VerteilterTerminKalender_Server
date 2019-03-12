@@ -1,12 +1,18 @@
 package terminkalender.service.interfaces;
 
-import org.springframework.http.ResponseEntity;
 import terminkalender.model.interfaces.EventParticipate;
 
+/**
+ * Interface for the EventParticipateService
+ */
 public interface EventParticipateService
 {
-    public EventParticipate addParticipation(EventParticipate eventParticipate);
-    public EventParticipate getParticipation(int userId);
-    public void deleteParticipation(int participateId);
+    // ------------- POST -------------
+    EventParticipate addParticipation(EventParticipate eventParticipate);
 
+    // ------------- GET -------------
+    EventParticipate getParticipation(int participateId);
+
+    // ------------- DELETE -------------
+    void deleteParticipation(int participateId);
 }

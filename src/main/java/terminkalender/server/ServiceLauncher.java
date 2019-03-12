@@ -21,9 +21,9 @@ public class ServiceLauncher {
         Set<Class<?>> ServiceClasses = new HashSet<>();
         ServiceClasses.add(new UserServiceImpl().getClass());
         ServiceClasses.add(new EventServiceImpl().getClass());
-//        ServiceClasses.add(new EventDeclineServiceImpl().getClass());
-//        ServiceClasses.add(new EventInviteServiceImpl().getClass());
-//        ServiceClasses.add(new EventParticipateServiceImpl().getClass());
+        ServiceClasses.add(new EventDeclineServiceImpl().getClass());
+        ServiceClasses.add(new EventInviteServiceImpl().getClass());
+        ServiceClasses.add(new EventParticipateServiceImpl().getClass());
 
         ResourceConfig rc = new ResourceConfig();
         rc.registerClasses(ServiceClasses);

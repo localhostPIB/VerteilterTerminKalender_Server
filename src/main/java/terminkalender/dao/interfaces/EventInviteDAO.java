@@ -4,11 +4,23 @@ import terminkalender.model.interfaces.EventInvite;
 
 import java.util.List;
 
-public interface EventInviteDAO extends ObjectDAO{
+/**
+ * Interface for the EventInviteDAO
+ */
+public interface EventInviteDAO extends ObjectDAO
+{
+    // ------------- ADD -------------
     int addEventInvite(EventInvite eventInvite);
-    void deleteEventInvite(int inviteId);
-    EventInvite getEventInvite(int inviteId);
-    List<EventInvite> getAllInvitationFromUser(int userId);
 
+    // ------------- GET -------------
+    EventInvite getEventInvite(int inviteId);
+
+    // ------------- GET ALL -------------
+    List<EventInvite> getAllInvitationToUser(int userId);
+
+    // ------------- DELETE 1 -------------
+    void deleteEventInvite(int inviteId);
+
+    // ------------- DELETE ALL-------------
     void removeAllEventInvite();
 }

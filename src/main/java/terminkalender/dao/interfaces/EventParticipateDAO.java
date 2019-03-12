@@ -2,10 +2,20 @@ package terminkalender.dao.interfaces;
 
 import terminkalender.model.interfaces.EventParticipate;
 
-public interface EventParticipateDAO {
+/**
+ * Interface for the EventParticipateDAO
+ */
+public interface EventParticipateDAO
+{
+    // ------------- ADD -------------
     int addEventParticipate(EventParticipate eventParticipate);
-    void deleteEventParticipate(int participateId);
+
+    // ------------- GET 1 -------------
     EventParticipate getEventParticipate(int userId);
 
+    // ------------- DELETE 1 -------------
+    void deleteEventParticipate(int participateId);
+
+    // ------------- DELETE ALL -------------
     void removeAllEventParticipate();
 }
