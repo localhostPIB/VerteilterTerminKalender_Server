@@ -3,20 +3,14 @@ package terminkalender.dao.classes;
 import terminkalender.dao.interfaces.EventDAO;
 import terminkalender.model.classes.EventImpl;
 import terminkalender.model.interfaces.Event;
-import terminkalender.util.util;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 public class EventDAOImpl extends ObjectDAOImpl implements EventDAO
 {
     /**
      * Konstruktor
      */
-
     public EventDAOImpl(){
         super();
     }

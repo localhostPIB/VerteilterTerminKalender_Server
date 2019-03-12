@@ -30,9 +30,9 @@ public class EventInviteServiceImpl implements EventInviteService {
     @Path("add")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public EventInvite addInvitation(EventInvite eventInvite){
+    public EventInvite addInvitation(EventInvite eventInvite) {
         int newInviteId = eventInviteDAO.addEventInvite(eventInvite);
-        return  eventInviteDAO.getEventInvite(newInviteId);
+        return eventInviteDAO.getEventInvite(newInviteId);
     }
 
 
@@ -40,17 +40,15 @@ public class EventInviteServiceImpl implements EventInviteService {
     @GET
     @Path("{userid}")
     @Produces(MediaType.APPLICATION_JSON)
-    public EventInvite getInvitation(@PathParam("userid") int userId){
-            return eventInviteDAO.getEventInvite(userId);
+    public EventInvite getInvitation(@PathParam("userid") int userId) {
+        return eventInviteDAO.getEventInvite(userId);
     }
-
-
 
     @Override
     @DELETE
     @Path("delete/{inviteid}")
-    public void deleteInvitation(@PathParam("inviteid") int inviteId){
-            eventInviteDAO.deleteEventInvite(inviteId);
+    public void deleteInvitation(@PathParam("inviteid") int inviteId) {
+        eventInviteDAO.deleteEventInvite(inviteId);
     }
 
 
