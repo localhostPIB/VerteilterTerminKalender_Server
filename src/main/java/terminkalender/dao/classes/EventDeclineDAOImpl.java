@@ -1,6 +1,7 @@
 package terminkalender.dao.classes;
 
 import terminkalender.dao.interfaces.EventDeclineDAO;
+import terminkalender.model.classes.EventDeclineImpl;
 import terminkalender.model.interfaces.EventDecline;
 
 public class EventDeclineDAOImpl extends ObjectDAOImpl implements EventDeclineDAO {
@@ -15,17 +16,37 @@ public class EventDeclineDAOImpl extends ObjectDAOImpl implements EventDeclineDA
 
         entityManager.persist(eventDecline);
         transaction.commit();
-        return 0;
+        int declineId =  eventDecline.getDeclineId();
+
+        finishTransaction();
+        return declineId;
     }
 
     @Override
-    public void deleteEventDecline(int declineId){
+    public void deleteEventDecline(int declineId) {
+        initTransaction();
+        transaction.begin();
 
+        EventDecline eventDecline = entityManager.find(EventDeclineImpl.class, declineId);
+        if(eventDecline == null) {
+            finishTransaction();
+            throw new IllegalArgumentException("Event decline existiert nicht!");
+        }
+        entityManager.remove(eventDecline);
+        transaction.commit();
+
+        finishTransaction();
     }
 
     @Override
-    public EventDecline getEventDecline(int userId){
+    public EventDecline getEventDecline(int userId) {
+        initTransaction();
+        transaction.begin();
+
+        transaction.commit();
+        finishTransaction();
         return null;
+
     }
 
     /**

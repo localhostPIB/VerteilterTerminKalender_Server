@@ -1,5 +1,6 @@
 package terminkalender.model.classes;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import lombok.Getter;
@@ -11,6 +12,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "user")
 @Getter @Setter
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class UserImpl implements User
 {
 	@Id
@@ -19,7 +21,6 @@ public class UserImpl implements User
 	private int userId;
 
 	@Column(name = "password")
-	//@JsonProperty(access = Access.WRITE_ONLY)
 	private String password;
 
 	@Column(name = "name")

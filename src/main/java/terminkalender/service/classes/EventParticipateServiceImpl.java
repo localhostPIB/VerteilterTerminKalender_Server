@@ -20,12 +20,12 @@ public class EventParticipateServiceImpl implements EventParticipateService {
     private EventParticipateDAO eventParticipateDAO;
     static final String webContextPath = "participate";
 
-    private EventParticipateServiceImpl(EventParticipateDAO eventParticipateDAO) throws ObjectIstNullException{
+    private EventParticipateServiceImpl(EventParticipateDAO eventParticipateDAO) throws ObjectIstNullException {
         ObjectValidator.checkObObjectNullIst(eventParticipateDAO);
         this.eventParticipateDAO = eventParticipateDAO;
     }
 
-    private  EventParticipateServiceImpl() throws  ObjectIstNullException{
+    private  EventParticipateServiceImpl() throws  ObjectIstNullException {
         this (DAOObjectBuilder.getEventPaticipateDaoObject());
     }
 
@@ -34,26 +34,23 @@ public class EventParticipateServiceImpl implements EventParticipateService {
     @Path("add")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public EventParticipate addParticipation(EventParticipate eventParticipate){
+    public EventParticipate addParticipation(EventParticipate eventParticipate) {
         int newParticipateId = eventParticipateDAO.addEventParticipate(eventParticipate);
-        return  eventParticipateDAO.getEventParticipate(newParticipateId);
+        return eventParticipateDAO.getEventParticipate(newParticipateId);
     }
-
 
     @Override
     @GET
     @Path("{userid}")
     @Produces(MediaType.APPLICATION_JSON)
-    public EventParticipate getParticipation(@PathParam("userid") int userId){
+    public EventParticipate getParticipation(@PathParam("userid") int userId) {
         return eventParticipateDAO.getEventParticipate(userId);
     }
-
-
 
     @Override
     @DELETE
     @Path("delete/{participateid}")
-    public void deleteParticipation(@PathParam("participateid") int participateId){
+    public void deleteParticipation(@PathParam("participateid") int participateId) {
         eventParticipateDAO.deleteEventParticipate(participateId);
     }
 
