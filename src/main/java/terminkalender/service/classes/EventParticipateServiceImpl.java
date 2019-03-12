@@ -1,54 +1,62 @@
 package terminkalender.service.classes;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+
+import terminkalender.builders.DAOObjectBuilder;
 import terminkalender.dao.interfaces.EventParticipateDAO;
+import terminkalender.exceptions.ObjectIstNullException;
 import terminkalender.model.interfaces.Event;
+import terminkalender.model.interfaces.EventInvite;
 import terminkalender.model.interfaces.EventParticipate;
 import terminkalender.service.RepositoriesInterface.EventParticipateRepository;
 import terminkalender.service.interfaces.EventParticipateService;
+import terminkalender.validators.ObjectValidator;
 
-import javax.ws.rs.DELETE;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 
 @Path(EventParticipateServiceImpl.webContextPath)
 public class EventParticipateServiceImpl implements EventParticipateService {
 
     private EventParticipateDAO eventParticipateDAO;
+    static final String webContextPath = "participate";
 
-    static final String webContextPath = "eventparticipate";
+    private EventParticipateServiceImpl(EventParticipateDAO eventParticipateDAO) throws ObjectIstNullException{
+        ObjectValidator.checkObObjectNullIst(eventParticipateDAO);
+        this.eventParticipateDAO = eventParticipateDAO;
+    }
 
-    @Autowired
-    EventParticipateRepository eventParticipateRepository;
+    private  EventParticipateServiceImpl() throws  ObjectIstNullException{
+        this (DAOObjectBuilder.getEventPaticipateDaoObject());
+    }
 
-   /* @POST
     @Override
-    public void addParticipated(int eventId, int participatedUserId){
+    @POST
+    @Path("add")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public EventParticipate addParticipation(EventParticipate eventParticipate){
+        int newParticipateId = eventParticipateDAO.addEventParticipate(eventParticipate);
+        return  eventParticipateDAO.getEventParticipate(newParticipateId);
+    }
 
-    }*/
 
+    @Override
+    @GET
+    @Path("{userid}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public EventParticipate getParticipation(@PathParam("userid") int userId){
+        return eventParticipateDAO.getEventParticipate(userId);
+    }
+
+
+
+    @Override
     @DELETE
-    @Override
-    public void deleteParticipated(int participatedUserId){
-
-    }
-    @PostMapping
-    @Override
-    public EventParticipate addParticipated(@RequestBody EventParticipate eventParticipate){
-        return eventParticipateRepository.save(eventParticipate);
+    @Path("delete/{participateid}")
+    public void deleteParticipation(@PathParam("participateid") int participateId){
+        eventParticipateDAO.deleteEventParticipate(participateId);
     }
 
-   /* //TODO nicht sicher ob wir die EventId oder participatedUserId benutzen
-    @DeleteMapping(path = "/{eventId}")
-    @Override
-    public ResponseEntity<?> deleteParticipated(@PathVariable("eventId") long eventId) {
-        return eventParticipateRepository.findById(eventId)
-                .map(record -> {
-                    eventParticipateRepository.deleteById(eventId);
-                    return ResponseEntity.ok().build();
-                }).orElse(ResponseEntity.notFound().build());
-    }*/
+
 }
 

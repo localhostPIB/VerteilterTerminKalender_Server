@@ -1,6 +1,7 @@
 package terminkalender.dao.classes;
 
 import terminkalender.dao.interfaces.EventParticipateDAO;
+import terminkalender.model.interfaces.EventParticipate;
 
 public class EventParticipateDAOImpl extends ObjectDAOImpl implements EventParticipateDAO {
 
@@ -9,15 +10,19 @@ public class EventParticipateDAOImpl extends ObjectDAOImpl implements EventParti
     }
 
     @Override
-    public void addParticipated(int eventId, int participatedUserId){
+    public int addEventParticipate(EventParticipate eventParticipate){
+        return 0;
+    }
+
+    @Override
+    public void deleteEventParticipate(int participateId){
 
     }
 
     @Override
-    public void deleteParticipated(int eventId, int participatedUserId){
-
+    public EventParticipate getEventParticipate(int userId){
+        return null;
     }
-
     /**
      * DELETE ALL RECORDS FROM EVENT PARTICIPATE TABLE
      */
