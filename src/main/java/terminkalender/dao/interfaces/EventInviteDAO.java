@@ -18,6 +18,10 @@ public interface EventInviteDAO extends ObjectDAO
     // ------------- GET ALL -------------
     List<EventInvite> getAllInvitationToUser(int userId);
 
+    List<EventInvite> getLatestInviteToUser(int userId, int lastInviteIdQuery);
+
+	int getLatestInviteIdToUser(int userId);
+
     // ------------- DELETE 1 -------------
     void deleteEventInvite(int inviteId);
 

@@ -1,6 +1,7 @@
 package terminkalender.dao.classes;
 
 import terminkalender.dao.interfaces.EventInviteDAO;
+import terminkalender.model.classes.EventImpl;
 import terminkalender.model.classes.EventInviteImpl;
 import terminkalender.model.interfaces.EventInvite;
 
@@ -75,6 +76,49 @@ public class EventInviteDAOImpl extends ObjectDAOImpl implements EventInviteDAO
 		transaction.commit();
 		finishTransaction();
 		return inviteList;
+	}
+
+	/**
+	 * retrieve all the invitations in the database that is newer than what requested
+	 * @param userId id of the invitations TO the user
+	 * @param latestInviteIdClient latest id of the invitation to this User in the Client-side
+	 * @return list of newer EventInvite-Objects than ones in the client side
+	 */
+	public List<EventInvite> getLatestInviteToUser(int userId, int latestInviteIdClient) {
+		initTransaction();
+		transaction.begin();
+
+		List<EventInvite> latestInvitation = entityManager
+				.createQuery("SELECT inv FROM EventInviteImpl inv WHERE (inv.userId = :userId AND inv.inviteId > :lastInviteIdQuery)",
+								EventInvite.class)
+				.setParameter("userId", userId)
+				.setParameter("lastInviteIdQuery", latestInviteIdClient)
+				.getResultList();
+
+		transaction.commit();
+		finishTransaction();
+		return latestInvitation;
+	}
+
+	/**
+	 * find what is the latest id of EventInvite / Invitation belong to the user in database
+	 * @param userId id of the user
+	 * @return latest id of Eventinvite / Invitation of the user in the database
+	 */
+	public int getLatestInviteIdToUser(int userId) {
+		initTransaction();
+		transaction.begin();
+
+		int latestId = entityManager
+				.createQuery("SELECT inv.inviteId FROM EventInviteImpl inv WHERE inv.userId = :userId ORDER BY inv.inviteId DESC",
+								Integer.class)
+				.setParameter("userId", userId)
+				.setMaxResults(1)
+				.getSingleResult();
+
+		transaction.commit();
+		finishTransaction();
+		return latestId;
 	}
 
 	/** ------------- DELETE 1 -------------

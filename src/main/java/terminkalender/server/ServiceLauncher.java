@@ -2,8 +2,10 @@ package terminkalender.server;
 
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
+import org.glassfish.jersey.media.sse.SseFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import terminkalender.service.classes.*;
+import terminkalender.sse.ServerSentEventResource;
 
 import java.io.IOException;
 import java.net.URI;
@@ -24,6 +26,8 @@ public class ServiceLauncher {
         ServiceClasses.add(new EventDeclineServiceImpl().getClass());
         ServiceClasses.add(new EventInviteServiceImpl().getClass());
         ServiceClasses.add(new EventParticipateServiceImpl().getClass());
+        ServiceClasses.add(ServerSentEventResource.class);
+        ServiceClasses.add(SseFeature.class);
 
         ResourceConfig rc = new ResourceConfig();
         rc.registerClasses(ServiceClasses);

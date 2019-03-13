@@ -76,6 +76,27 @@ public class EventInviteServiceImpl implements EventInviteService
         return util.convertListEventToJSON(invitationList);
     }
 
+    /**
+     * retrieve all the invitations in the database that is newer than what requested
+     * @param userid id of the user
+     * @param latestInviteIdClient latest id of the invitation to this user in the client-side
+     * @return list of newer EventInvite-Objects than ones in the client side
+     */
+    public List<EventInvite> getLatestInvitationsToUser(int userid, int latestInviteIdClient) {
+        List<EventInvite> lastInvitationsIdDB = eventInviteDAO.getLatestInviteToUser(userid, latestInviteIdClient);
+    	return lastInvitationsIdDB;
+	}
+
+	/**
+	 * find what is the latest id of EventInvite / Invitation belong to the user in database
+	 * @param userId id of the user
+	 * @return latest id of Eventinvite / Invitation of the user in the database
+	 */
+	public int getLatestInvitationId(int userId) {
+    	int latestId = eventInviteDAO.getLatestInviteIdToUser(userId);
+    	return latestId;
+	}
+
     //ex: localhost:8000/invitation/delete/{inviteid}
     /** -------------------------------- DELETE --------------------------------
      * DELETE-endpoint for deleting Event Invitation

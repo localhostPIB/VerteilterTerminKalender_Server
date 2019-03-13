@@ -141,44 +141,44 @@ public class MainApp {
 
         EventInvite invite1 = ModelObjectBuilder.getEventInviteObject();
         invite1.setEventId(johnEvent1.getEventId());
-        invite1.setUserId(42);
+        invite1.setUserId(tom.getUserId());
         eventInviteDAO.addEventInvite(invite1);
 
         EventInvite invite2 = ModelObjectBuilder.getEventInviteObject();
         invite2.setEventId(sarahEvent1.getEventId());
-        invite2.setUserId(42);
+        invite2.setUserId(sarah.getUserId());
         eventInviteDAO.addEventInvite(invite2);
 
         EventInvite invite3 = ModelObjectBuilder.getEventInviteObject();
         invite3.setEventId(sarahEvent2.getEventId());
-        invite3.setUserId(42);
+        invite3.setUserId(mary.getUserId());
         eventInviteDAO.addEventInvite(invite3);
 
         EventInvite invite4 = ModelObjectBuilder.getEventInviteObject();
         invite4.setEventId(maryEvent1.getEventId());
-        invite4.setUserId(42);
+        invite4.setUserId(tom.getUserId());
         eventInviteDAO.addEventInvite(invite4);
 
         EventInvite invite5 = ModelObjectBuilder.getEventInviteObject();
         invite5.setEventId(johnEvent1.getEventId());
-        invite5.setUserId(44);
+        invite5.setUserId(sarah.getUserId());
         eventInviteDAO.addEventInvite(invite5);
 
         EventInvite invite6 = ModelObjectBuilder.getEventInviteObject();
         invite6.setEventId(sarahEvent2.getEventId());
-        invite6.setUserId(43);
+        invite6.setUserId(john.getUserId());
         eventInviteDAO.addEventInvite(invite6);
 
         EventInvite invite7 = ModelObjectBuilder.getEventInviteObject();
         invite7.setEventId(sarahEvent2.getEventId());
-        invite7.setUserId(45);
+        invite7.setUserId(mary.getUserId());
         eventInviteDAO.addEventInvite(invite7);
 
     }
 
     public static void main(String[] args) {
         MainApp mainApp = new MainApp();
-        //mainApp.removeAllRecords();
-        //mainApp.generateData();
+        mainApp.removeAllRecords();
+        mainApp.generateData();
     }
 }
