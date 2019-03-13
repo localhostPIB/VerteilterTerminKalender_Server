@@ -8,6 +8,7 @@ import terminkalender.dao.interfaces.*;
 import terminkalender.model.classes.EventImpl;
 import terminkalender.model.classes.UserImpl;
 import terminkalender.model.interfaces.Event;
+import terminkalender.model.interfaces.EventInvite;
 import terminkalender.model.interfaces.User;
 
 import java.time.LocalDateTime;
@@ -138,11 +139,46 @@ public class MainApp {
         maryEvent1.setUserId(mary.getUserId());
         eventDAO.addEvent(maryEvent1);
 
+        EventInvite invite1 = ModelObjectBuilder.getEventInviteObject();
+        invite1.setEventId(johnEvent1.getEventId());
+        invite1.setUserId(tom.getUserId());
+        eventInviteDAO.addEventInvite(invite1);
+
+        EventInvite invite2 = ModelObjectBuilder.getEventInviteObject();
+        invite2.setEventId(sarahEvent1.getEventId());
+        invite2.setUserId(sarah.getUserId());
+        eventInviteDAO.addEventInvite(invite2);
+
+        EventInvite invite3 = ModelObjectBuilder.getEventInviteObject();
+        invite3.setEventId(sarahEvent2.getEventId());
+        invite3.setUserId(mary.getUserId());
+        eventInviteDAO.addEventInvite(invite3);
+
+        EventInvite invite4 = ModelObjectBuilder.getEventInviteObject();
+        invite4.setEventId(maryEvent1.getEventId());
+        invite4.setUserId(tom.getUserId());
+        eventInviteDAO.addEventInvite(invite4);
+
+        EventInvite invite5 = ModelObjectBuilder.getEventInviteObject();
+        invite5.setEventId(johnEvent1.getEventId());
+        invite5.setUserId(sarah.getUserId());
+        eventInviteDAO.addEventInvite(invite5);
+
+        EventInvite invite6 = ModelObjectBuilder.getEventInviteObject();
+        invite6.setEventId(sarahEvent2.getEventId());
+        invite6.setUserId(john.getUserId());
+        eventInviteDAO.addEventInvite(invite6);
+
+        EventInvite invite7 = ModelObjectBuilder.getEventInviteObject();
+        invite7.setEventId(sarahEvent2.getEventId());
+        invite7.setUserId(mary.getUserId());
+        eventInviteDAO.addEventInvite(invite7);
+
     }
 
     public static void main(String[] args) {
         MainApp mainApp = new MainApp();
-        //mainApp.removeAllRecords();
-        //mainApp.generateData();
+        mainApp.removeAllRecords();
+        mainApp.generateData();
     }
 }
