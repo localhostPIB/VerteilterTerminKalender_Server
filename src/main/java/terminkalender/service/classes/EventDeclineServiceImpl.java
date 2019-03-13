@@ -10,9 +10,12 @@ import terminkalender.validators.ObjectValidator;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
+/**
+ * Resource / Service class for Event Decline - Object
+ */
 @Path(EventDeclineServiceImpl.webContextPath)
-public class EventDeclineServiceImpl implements EventDeclineService {
-
+public class EventDeclineServiceImpl implements EventDeclineService
+{
     private EventDeclineDAO eventDeclineDAO;
     static final String webContextPath = "decline";
 
@@ -21,10 +24,17 @@ public class EventDeclineServiceImpl implements EventDeclineService {
         this.eventDeclineDAO = eventDeclineDAO;
     }
 
-    private  EventDeclineServiceImpl() throws  ObjectIstNullException{
+    public EventDeclineServiceImpl() throws  ObjectIstNullException{
         this (DAOObjectBuilder.getEventDeclineDaoObject());
     }
 
+    //ex: localhost:8000/decline/add {request body containing the new decline object}
+    /** -------------------------------- POST --------------------------------
+     * POST-endpoint for creating new Event Decline
+     * request body should contain event Event Decline object WITHOUT the id
+     * @param eventDecline the new Event Decline object want to be added
+     * @return the new Event Decline after stored in the database and given id
+     */
     @Override
     @POST
     @Path("add")
@@ -35,14 +45,25 @@ public class EventDeclineServiceImpl implements EventDeclineService {
         return  eventDeclineDAO.getEventDecline(newDeclineId);
     }
 
+    //ex: localhost:8000/decline/{declineid}
+    /** -------------------------------- GET --------------------------------
+     * GET-endpoint for retrieving 1 Event Decline
+     * @param declineId the id of the Event Decline wants to be retrieved
+     * @return the Event Decline having the declineId
+     */
     @Override
     @GET
-    @Path("{userid}")
+    @Path("{declineid}")
     @Produces(MediaType.APPLICATION_JSON)
-    public EventDecline getDecline(@PathParam("userid") int userId) {
-        return eventDeclineDAO.getEventDecline(userId);
+    public EventDecline getDecline(@PathParam("declineid") int declineId) {
+        return eventDeclineDAO.getEventDecline(declineId);
     }
 
+    //ex: localhost:8000/decline/delete/{declineid}
+    /** -------------------------------- DELETE --------------------------------
+     * DELETE-endpoint for deleting Event Decline
+     * @param declineId the id of the Event Decline wants to be deleted
+     */
     @Override
     @DELETE
     @Path("delete/{declineid}")

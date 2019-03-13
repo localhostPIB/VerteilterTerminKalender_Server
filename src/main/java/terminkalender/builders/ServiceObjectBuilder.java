@@ -1,4 +1,6 @@
 package terminkalender.builders;
 
-public class ServiceObjectBuilder {
+public class ServiceObjectBuilder
+{
+
 }

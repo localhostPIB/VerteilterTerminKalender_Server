@@ -4,9 +4,20 @@ import org.springframework.http.ResponseEntity;
 import terminkalender.model.interfaces.Event;
 import terminkalender.model.interfaces.EventInvite;
 
+/**
+ * Interface for the EventInviteService
+ */
 public interface EventInviteService
 {
-	public EventInvite addInvitation(EventInvite eventInvite);
-	public EventInvite getInvitation(int userId);
-	public void deleteInvitation(int invitedId);
+	// ------------- POST -------------
+	EventInvite addInvitation(EventInvite eventInvite);
+
+	// ------------- GET -------------
+	EventInvite getInvitation(int userId);
+
+	// ------------- GET -------------
+	String getInvitationToUser(int userId);
+
+	// ------------- DELETE -------------
+	void deleteInvitation(int invitedId);
 }
