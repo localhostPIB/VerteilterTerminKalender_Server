@@ -3,7 +3,8 @@ package terminkalender.builders;
 import terminkalender.dao.classes.*;
 import terminkalender.dao.interfaces.*;
 
-public class DAOObjectBuilder {
+public class DAOObjectBuilder
+{
 
     public static EventDAO getEventDaoObject(){
         return new EventDAOImpl();
@@ -17,11 +18,11 @@ public class DAOObjectBuilder {
         return new EventParticipateDAOImpl();
     }
 
-    public  static EventInviteDAO getEventInviteDaoObject(){
+    public static EventInviteDAO getEventInviteDaoObject(){
         return new EventInviteDAOImpl();
     }
 
-    public  static EventDeclineDAO getEventDeclineDaoObject(){
+    public static EventDeclineDAO getEventDeclineDaoObject(){
         return new EventDeclineDAOImpl();
     }
 }

@@ -1,13 +1,27 @@
 package terminkalender.service.interfaces;
 
 import terminkalender.model.interfaces.User;
-import javax.ws.rs.core.Response;
 
+/**
+ * Interface for the User
+ */
 public interface UserService
 {
-	public User addUser (User user);
-	public User getUser (String email);
-	public void updateUser(User user);
-	public void deleteUser(String email);
-	public boolean verifyUser(String email, String password);
+	// ------------- POST -------------
+	User addUser (User user);
+
+	// ------------- GET -------------
+	User getUser (String email);
+
+	// ------------- GET -------------
+	int getUserIdByEmail(String email);
+
+	// ------------- PUT -------------
+	void updateUser(User user);
+
+	// ------------- DELETE -------------
+	void deleteUser(String email);
+
+	// ------------- GET -------------
+	boolean verifyUser(String email, String password);
 }

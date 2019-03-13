@@ -3,32 +3,29 @@ package terminkalender.dao.classes;
 import terminkalender.dao.interfaces.EventDAO;
 import terminkalender.model.classes.EventImpl;
 import terminkalender.model.interfaces.Event;
-import terminkalender.util.util;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
+/**
+ * DAO-Class for the EventDAO
+ */
 public class EventDAOImpl extends ObjectDAOImpl implements EventDAO
 {
     /**
-     * Konstruktor
+     * constructor, call the ObjectDAO constructor
+     * to initialize connection to database
      */
-
     public EventDAOImpl(){
         super();
     }
 
-
-    /**
-     *
-     * @param event
-     * @return
+    /** ------------- ADD -------------
+     * add new Event to the database
+     * @param event the Event - Object
+     * @return the id of the newly stored event
      */
     @Override
-    public int addEvent(Event event){
+    public int addEvent(Event event) {
         initTransaction();
         transaction.begin();
 
@@ -40,10 +37,10 @@ public class EventDAOImpl extends ObjectDAOImpl implements EventDAO
         return eventID;
     }
 
-    /**
-     *
-     * @param eventID
-     * @return
+    /** ------------- GET 1 -------------
+     * find the Event - Object based on its id
+     * @param eventID the event id
+     * @return the Event - Object
      */
     @Override
     public Event getEvent(int eventID) {
@@ -60,9 +57,29 @@ public class EventDAOImpl extends ObjectDAOImpl implements EventDAO
         return event;
     }
 
-    /**
-     *
-     * @param event
+    /** ------------- GET ALL -------------
+     * retrieve all the events belong to the user created them
+     * @param userId the user who creates the events
+     * @return List of all Events belongs to the user
+     */
+    @Override
+    public List<Event> getAllEventFromUser(int userId) {
+        initTransaction();
+        transaction.begin();
+
+        List<Event> eventList = entityManager
+                .createQuery("SELECT e FROM EventImpl e WHERE e.userId = :userId", Event.class)
+                .setParameter("userId", userId)
+                .getResultList();
+
+        transaction.commit();
+        finishTransaction();
+        return eventList;
+    }
+
+    /** ------------- UPDATE -------------
+     * update the event in the database
+     * @param event the updated event
      */
     @Override
     public void updateEvent(Event event){
@@ -77,13 +94,12 @@ public class EventDAOImpl extends ObjectDAOImpl implements EventDAO
 
         entityManager.merge(event);
         transaction.commit();
-
         finishTransaction();
     }
 
-    /**
-     *
-     * @param eventId
+    /** ------------- DELETE 1 -------------
+     * delete event from the database
+     * @param eventId id of the to be deleted event
      */
     @Override
     public void deleteEvent(int eventId){
@@ -97,33 +113,10 @@ public class EventDAOImpl extends ObjectDAOImpl implements EventDAO
         }
         entityManager.remove(event);
         transaction.commit();
-
         finishTransaction();
     }
 
-    /**
-     *
-     * @param userId
-     * @return
-     */
-    @Override
-    public List<Event> getAllEventFromUser(int userId) {
-        initTransaction();
-        transaction.begin();
-
-        List<Event> eventList = entityManager
-                .createQuery("SELECT e FROM EventImpl e WHERE e.userId = :userId", Event.class)
-                .setParameter("userId", userId)
-                .getResultList();
-
-        transaction.commit();
-        finishTransaction();
-
-        return eventList;
-
-    }
-
-    /**
+    /** ------------- DELETE ALL -------------
      * DELETE ALL RECORDS FROM EVENT TABLE
      */
     @Override
@@ -135,7 +128,6 @@ public class EventDAOImpl extends ObjectDAOImpl implements EventDAO
                 .createQuery("DELETE FROM EventImpl")
                 .executeUpdate();
         transaction.commit();
-
         finishTransaction();
     }
 

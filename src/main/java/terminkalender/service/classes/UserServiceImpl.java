@@ -11,12 +11,11 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
 /**
- * Resource class for User-Object
+ * Resource class for UserImpl-Object
  */
 @Path(UserServiceImpl.webContextPath)
 public class UserServiceImpl implements UserService
 {
-
     private UserDAO userDAO;
     static final String webContextPath ="user";
 
@@ -30,7 +29,7 @@ public class UserServiceImpl implements UserService
     }
 
     //ex: localhost:8000/user/add {request body containing the new user}
-    /**
+    /** -------------------------------- POST --------------------------------
      * POST-endpoint for adding new user
      * request body should contain user object WITHOUT the id
      * @param user the new user to be added
@@ -47,7 +46,7 @@ public class UserServiceImpl implements UserService
     }
 
     //ex: localhost:8000/user/{email}
-    /**
+    /** -------------------------------- GET --------------------------------
      * GET-endpoint for retrieving user
      * @param email the email of the user wants to be retrieved
      * @return the user having the email
@@ -60,8 +59,22 @@ public class UserServiceImpl implements UserService
         return userDAO.getUserByEmail(email);
     }
 
+    //ex: localhost:8000/user/userid?email=...
+    /** -------------------------------- GET --------------------------------
+     * GET-endpoint for retrieving userid by its email
+     * used for creating EventInvite-Object by the client
+     * @param email the email of the user wants to be retrieved
+     * @return the userid having this email
+     */
+    @Override
+    @GET
+    @Path("findid")
+    public int getUserIdByEmail(@QueryParam("email") String email) {
+        return getUser(email).getUserId();
+    }
+
     //ex: localhost:8000/user/update {request body containing the updated user}
-    /**
+    /** -------------------------------- PUT --------------------------------
      * PUT-endpoint for updating user
      * request body should contain user object WITH the id
      * @param user the user wants to be updated
@@ -74,10 +87,8 @@ public class UserServiceImpl implements UserService
         userDAO.updateUser(user);
     }
 
-    //TODO:DELETE USER BY ID / EMAIL??
-    //204 error
     //ex: localhost:8000/user/delete/{email}
-    /**
+    /** -------------------------------- DELETE --------------------------------
      * DELETE-endpoint for deleting user
      * @param email the email of the user wants to be deleted
      */
@@ -91,7 +102,7 @@ public class UserServiceImpl implements UserService
 
     //TODO: implement password so it is encrypted
     //ex: localhost:8000/user/verify/{email}/{password}
-    /**
+    /** -------------------------------- GET --------------------------------
      * GET-endpoint for verifying user credential
      * @param email the id of the user wants to be verified
      * @param password the password of the user wants to be verified
@@ -104,5 +115,4 @@ public class UserServiceImpl implements UserService
         User toBeVerified = userDAO.getUserByEmail(email);
         return userDAO.verifyUser(toBeVerified.getUserId(), password);
     }
-
 }

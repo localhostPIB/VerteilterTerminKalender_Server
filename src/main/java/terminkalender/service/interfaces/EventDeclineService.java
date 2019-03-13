@@ -1,10 +1,18 @@
 package terminkalender.service.interfaces;
 
-import org.springframework.http.ResponseEntity;
 import terminkalender.model.interfaces.EventDecline;
 
-public interface EventDeclineService {
+/**
+ * Interface for the EventDeclineService
+ */
+public interface EventDeclineService
+{
+    // ------------- POST -------------
     EventDecline addDecline(EventDecline eventDecline);
-    EventDecline getDecline(int userId);
+
+    // ------------- GET -------------
+    EventDecline getDecline(int declineId);
+
+    // ------------- DELETE -------------
     void deleteDecline(int declineId);
 }

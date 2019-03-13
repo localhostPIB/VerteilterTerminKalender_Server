@@ -10,17 +10,20 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * superclass of all DAO-Classes
+ */
 public class ObjectDAOImpl implements ObjectDAO
 {
-    static Connection connection;
-    EntityManagerFactory factory;
+    private static Connection connection;
+    private EntityManagerFactory factory;
     EntityManager entityManager;
     EntityTransaction transaction;
 
     /**
-     * Standard-konstruktor, erstelle die Verbindung mit dem Datenbank
+     * Standard constructor, connect to the database
      */
-    public ObjectDAOImpl() {
+    ObjectDAOImpl() {
         try {
             connection = DriverManager.getConnection("jdbc:sqlite:src/main/resources/database.db" );
         } catch (SQLException e) {
@@ -29,7 +32,7 @@ public class ObjectDAOImpl implements ObjectDAO
     }
 
     /**
-     * Hilfsfunktion, erstelle die persistence entity objekt, um mit dem Datenbank zu kommunizieren
+     * create the persistence entity object, so the DAO can communicate with the database
      */
     @Override
     public void initTransaction() {
@@ -39,12 +42,11 @@ public class ObjectDAOImpl implements ObjectDAO
     }
 
     /**
-     * Hilfsfunktion, schliesst die persistence entity objekt aus
+     * close the connection to the database
      */
     @Override
     public void finishTransaction() {
         entityManager.close();
         factory.close();
     }
-
 }

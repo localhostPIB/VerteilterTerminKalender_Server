@@ -1,9 +1,13 @@
 package terminkalender.util;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 public class util
 {
@@ -20,4 +24,22 @@ public class util
 	public static LocalDate convertStringToDate(String date) {
 		return LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE);
 	}
+
+	/**
+	 * Helpfunction, convert List of objects to JSON string to be returned to client
+	 * @param objectsList List containing all events
+	 * @return JSON String
+	 */
+	public static String convertListEventToJSON(List<?> objectsList) {
+		String eventListAsJSON = "";
+		ObjectMapper objectMapper = new ObjectMapper();
+		try {
+			eventListAsJSON = objectMapper.writeValueAsString(objectsList);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		return eventListAsJSON;
+	}
+
+
 }
