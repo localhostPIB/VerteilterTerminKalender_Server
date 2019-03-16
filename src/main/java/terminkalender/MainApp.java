@@ -2,14 +2,8 @@ package terminkalender;
 
 import terminkalender.builders.DAOObjectBuilder;
 import terminkalender.builders.ModelObjectBuilder;
-import terminkalender.dao.classes.EventDAOImpl;
-import terminkalender.dao.classes.UserDAOImpl;
 import terminkalender.dao.interfaces.*;
-import terminkalender.model.classes.EventImpl;
-import terminkalender.model.classes.UserImpl;
-import terminkalender.model.interfaces.Event;
-import terminkalender.model.interfaces.EventInvite;
-import terminkalender.model.interfaces.User;
+import terminkalender.model.interfaces.*;
 
 import java.time.LocalDateTime;
 
@@ -139,10 +133,10 @@ public class MainApp {
         maryEvent1.setUserId(mary.getUserId());
         eventDAO.addEvent(maryEvent1);
 
-        EventInvite invite1 = ModelObjectBuilder.getEventInviteObject();
-        invite1.setEventId(johnEvent1.getEventId());
-        invite1.setUserId(tom.getUserId());
-        eventInviteDAO.addEventInvite(invite1);
+//        EventInvite invite1 = ModelObjectBuilder.getEventInviteObject();
+//        invite1.setEventId(johnEvent1.getEventId());
+//        invite1.setUserId(tom.getUserId());
+//        eventInviteDAO.addEventInvite(invite1);
 
         EventInvite invite2 = ModelObjectBuilder.getEventInviteObject();
         invite2.setEventId(sarahEvent1.getEventId());
@@ -159,23 +153,41 @@ public class MainApp {
         invite4.setUserId(tom.getUserId());
         eventInviteDAO.addEventInvite(invite4);
 
-        EventInvite invite5 = ModelObjectBuilder.getEventInviteObject();
-        invite5.setEventId(johnEvent1.getEventId());
-        invite5.setUserId(sarah.getUserId());
-        eventInviteDAO.addEventInvite(invite5);
+//        EventInvite invite5 = ModelObjectBuilder.getEventInviteObject();
+//        invite5.setEventId(johnEvent1.getEventId());
+//        invite5.setUserId(sarah.getUserId());
+//        eventInviteDAO.addEventInvite(invite5);
 
-        EventInvite invite6 = ModelObjectBuilder.getEventInviteObject();
-        invite6.setEventId(sarahEvent2.getEventId());
-        invite6.setUserId(john.getUserId());
-        eventInviteDAO.addEventInvite(invite6);
+//        EventInvite invite6 = ModelObjectBuilder.getEventInviteObject();
+//        invite6.setEventId(sarahEvent2.getEventId());
+//        invite6.setUserId(john.getUserId());
+//        eventInviteDAO.addEventInvite(invite6);
+//
+//        EventInvite invite7 = ModelObjectBuilder.getEventInviteObject();
+//        invite7.setEventId(sarahEvent2.getEventId());
+//        invite7.setUserId(mary.getUserId());
+//        eventInviteDAO.addEventInvite(invite7);
 
-        EventInvite invite7 = ModelObjectBuilder.getEventInviteObject();
-        invite7.setEventId(sarahEvent2.getEventId());
-        invite7.setUserId(mary.getUserId());
-        eventInviteDAO.addEventInvite(invite7);
+        EventParticipate participate1 = ModelObjectBuilder.getEventParticipateObject();
+        participate1.setEventId(sarahEvent2.getEventId());
+        participate1.setUserId(mary.getUserId());
+        eventParticipateDAO.addEventParticipate(participate1);
 
+        EventParticipate participate2 = ModelObjectBuilder.getEventParticipateObject();
+        participate2.setEventId(sarahEvent2.getEventId());
+        participate2.setUserId(john.getUserId());
+        eventParticipateDAO.addEventParticipate(participate2);
 
+        EventDecline decline1 = ModelObjectBuilder.getEventDeclineObject();
+        decline1.setEventId(johnEvent1.getEventId());
+        decline1.setUserId(tom.getUserId());
+        eventDeclineDAO.addEventDecline(decline1);
 
+        EventDecline decline2 = ModelObjectBuilder.getEventDeclineObject();
+        decline2.setEventId(johnEvent1.getEventId());
+        decline2.setUserId(sarah.getUserId());
+        eventDeclineDAO.addEventDecline(decline2);
+        
     }
 
     public static void main(String[] args) {
