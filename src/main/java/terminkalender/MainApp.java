@@ -174,6 +174,8 @@ public class MainApp {
         invite7.setUserId(mary.getUserId());
         eventInviteDAO.addEventInvite(invite7);
 
+
+
     }
 
     public static void main(String[] args) {

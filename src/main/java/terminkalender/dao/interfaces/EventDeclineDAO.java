@@ -2,6 +2,8 @@ package terminkalender.dao.interfaces;
 
 import terminkalender.model.interfaces.EventDecline;
 
+import java.util.List;
+
 /**
  * Interface for the EventDeclineDAO
  */
@@ -12,6 +14,9 @@ public interface EventDeclineDAO extends ObjectDAO
 
     // ------------- GET 1 -------------
     EventDecline getEventDecline(int userId);
+
+     // ------------- GET ALL -------------
+    List<Integer> getUserWhoDecline(int eventId);
 
     // ------------- DELETE 1 -------------
     void deleteEventDecline(int declineId);

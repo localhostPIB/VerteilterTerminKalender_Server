@@ -3,6 +3,9 @@ package terminkalender.dao.classes;
 import terminkalender.dao.interfaces.EventDeclineDAO;
 import terminkalender.model.classes.EventDeclineImpl;
 import terminkalender.model.interfaces.EventDecline;
+import terminkalender.model.interfaces.User;
+
+import java.util.List;
 
 /**
  * DAO-Class for the EventDeclineDAO
@@ -53,6 +56,28 @@ public class EventDeclineDAOImpl extends ObjectDAOImpl implements EventDeclineDA
 
         finishTransaction();
         return eventDecline;
+    }
+
+    /** ------------- GET ALL -------------
+     * find the all the users who decline an event
+     * @param eventId id of an event
+     * @return list of id of the user who decline an event
+     */
+    @Override
+    public List<Integer> getUserWhoDecline(int eventId) {
+        initTransaction();
+        transaction.begin();
+
+        List<Integer> userList = entityManager
+                .createQuery("SELECT dec.userId FROM EventDeclineImpl dec WHERE dec.eventId = :eventId",
+                                Integer.class)
+                .setParameter("eventId", eventId)
+                .getResultList();
+
+        transaction.commit();
+        finishTransaction();
+
+        return userList;
     }
 
     /** ------------- DELETE 1 -------------

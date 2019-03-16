@@ -4,6 +4,8 @@ import terminkalender.dao.interfaces.EventParticipateDAO;
 import terminkalender.model.classes.EventParticipateImpl;
 import terminkalender.model.interfaces.EventParticipate;
 
+import java.util.List;
+
 /**
  * DAO-Class for the EventParticipate
  */
@@ -53,6 +55,28 @@ public class EventParticipateDAOImpl extends ObjectDAOImpl implements EventParti
 
         finishTransaction();
         return eventParticipate;
+    }
+
+    /** ------------- GET ALL -------------
+     * find the all the users who accept an event
+     * @param eventId id of an event
+     * @return list of id of the user who accept an event
+     */
+    @Override
+    public List<Integer> getUserWhoAccept(int eventId) {
+        initTransaction();
+        transaction.begin();
+
+        List<Integer> userList = entityManager
+                .createQuery("SELECT acc.userId FROM EventParticipateImpl acc WHERE acc.eventId = :eventId",
+                        Integer.class)
+                .setParameter("eventId", eventId)
+                .getResultList();
+
+        transaction.commit();
+        finishTransaction();
+
+        return userList;
     }
 
     /** ------------- DELETE 1 -------------
