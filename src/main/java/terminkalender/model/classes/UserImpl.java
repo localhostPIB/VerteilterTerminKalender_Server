@@ -3,9 +3,11 @@ package terminkalender.model.classes;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Getter;
 import lombok.Setter;
 import terminkalender.model.interfaces.User;
+import terminkalender.util.Views;
 
 import javax.persistence.*;
 
@@ -24,9 +26,11 @@ public class UserImpl implements User
 	//@JsonProperty(access = Access.WRITE_ONLY)
 	private String password;
 
+	@JsonView(Views.Public.class)
 	@Column(name = "name")
 	private String name;
 
+	@JsonView(Views.Public.class)
 	@Column(name = "lastname")
 	private String lastName;
 

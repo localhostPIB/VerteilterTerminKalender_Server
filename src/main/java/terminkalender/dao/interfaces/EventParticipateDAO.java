@@ -2,6 +2,8 @@ package terminkalender.dao.interfaces;
 
 import terminkalender.model.interfaces.EventParticipate;
 
+import java.util.List;
+
 /**
  * Interface for the EventParticipateDAO
  */
@@ -12,6 +14,9 @@ public interface EventParticipateDAO
 
     // ------------- GET 1 -------------
     EventParticipate getEventParticipate(int userId);
+
+    // ------------- GET ALL -------------
+    List<Integer> getUserWhoAccept(int eventId);
 
     // ------------- DELETE 1 -------------
     void deleteEventParticipate(int participateId);

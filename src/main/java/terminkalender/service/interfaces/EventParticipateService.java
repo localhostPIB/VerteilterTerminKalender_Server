@@ -13,6 +13,9 @@ public interface EventParticipateService
     // ------------- GET -------------
     EventParticipate getParticipation(int participateId);
 
+    // ------------- GET ALL USER WHO ACCEPT------------------------------
+    String getUserWhoAccept(int eventId);
+
     // ------------- DELETE -------------
     void deleteParticipation(int participateId);
 }
