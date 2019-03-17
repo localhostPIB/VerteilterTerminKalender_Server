@@ -1,5 +1,11 @@
 package terminkalender.model.interfaces;
 
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import terminkalender.model.classes.EventDeclineImpl;
+import terminkalender.model.classes.EventInviteImpl;
+
+@JsonDeserialize(as = EventDeclineImpl.class)
 public interface EventDecline {
 
     //----------------DECLINEDID----------------
