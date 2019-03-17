@@ -1,14 +1,22 @@
 package terminkalender.service.classes;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import terminkalender.builders.DAOObjectBuilder;
 import terminkalender.dao.interfaces.EventParticipateDAO;
+import terminkalender.dao.interfaces.UserDAO;
 import terminkalender.exceptions.ObjectIstNullException;
 import terminkalender.model.interfaces.EventParticipate;
+import terminkalender.model.interfaces.User;
 import terminkalender.service.interfaces.EventParticipateService;
+import terminkalender.util.Views;
 import terminkalender.validators.ObjectValidator;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Resource / Service class for Event Participate - Object
@@ -18,15 +26,18 @@ public class EventParticipateServiceImpl implements EventParticipateService
 {
 
     private EventParticipateDAO eventParticipateDAO;
+    private UserDAO userDAO;
     static final String webContextPath = "participate";
 
-    private EventParticipateServiceImpl(EventParticipateDAO eventParticipateDAO) throws ObjectIstNullException {
+    private EventParticipateServiceImpl(EventParticipateDAO eventParticipateDAO, UserDAO userDAO) throws ObjectIstNullException {
         ObjectValidator.checkObObjectNullIst(eventParticipateDAO);
+        ObjectValidator.checkObObjectNullIst(userDAO);
         this.eventParticipateDAO = eventParticipateDAO;
+        this.userDAO = userDAO;
     }
 
     public EventParticipateServiceImpl() throws  ObjectIstNullException {
-        this (DAOObjectBuilder.getEventPaticipateDaoObject());
+        this (DAOObjectBuilder.getEventPaticipateDaoObject(), DAOObjectBuilder.getUserDaoObject());
     }
 
     //ex: localhost:8000/participate/add {request body containing the new participate object}
@@ -47,7 +58,7 @@ public class EventParticipateServiceImpl implements EventParticipateService
     }
 
     //ex: localhost:8000/participate/{participateid} {request body containing the new participate object}
-    /** -------------------------------- POST --------------------------------
+    /** -------------------------------- GET --------------------------------
      * GET-endpoint for retrieving 1 Event Participate
      * @param participateId the id of the Event Participate wants to be retrieved
      * @return the Event Participate Objekt
@@ -58,6 +69,36 @@ public class EventParticipateServiceImpl implements EventParticipateService
     @Produces(MediaType.APPLICATION_JSON)
     public EventParticipate getParticipation(@PathParam("participateid") int participateId) {
         return eventParticipateDAO.getEventParticipate(participateId);
+    }
+
+    //ex: localhost:8000/participate/event/{eventid}
+    /** ------------- GET ALL USER WHO ACCEPT------------------------------
+     * GET-endpoint for retrieving all user who accept the event
+     * @param eventId
+     * @return all user who accept the event
+     */
+    @Override
+    @GET
+    @Path("event/{eventid}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getUserWhoAccept(@PathParam("eventid") int eventId){
+        String result = "";
+        List<Integer> listOfUserId = eventParticipateDAO.getUserWhoAccept(eventId);
+
+        List<User> userList = new ArrayList<>();
+        for(int i: listOfUserId) {
+            userList.add(userDAO.getUserById(i));
+        }
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.disable(MapperFeature.DEFAULT_VIEW_INCLUSION);
+        try {
+            result = mapper.writerWithView(Views.Public.class)
+                           .writeValueAsString(userList);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return result;
+
     }
 
     //ex: localhost:8000/participate/delete/{participateid}

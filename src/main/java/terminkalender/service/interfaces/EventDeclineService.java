@@ -13,6 +13,9 @@ public interface EventDeclineService
     // ------------- GET -------------
     EventDecline getDecline(int declineId);
 
+    // ------------- GET ALL USER WHO DECLINE ------------------------------
+    String getUserWhoDecline(int eventId);
+
     // ------------- DELETE -------------
     void deleteDecline(int declineId);
 }

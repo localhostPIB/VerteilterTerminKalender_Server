@@ -89,10 +89,10 @@ public class EventInviteDAOImpl extends ObjectDAOImpl implements EventInviteDAO
 		transaction.begin();
 
 		List<EventInvite> latestInvitation = entityManager
-				.createQuery("SELECT inv FROM EventInviteImpl inv WHERE (inv.userId = :userId AND inv.inviteId > :lastInviteIdQuery)",
+				.createQuery("SELECT inv FROM EventInviteImpl inv WHERE (inv.userId = :userId AND inv.inviteId > :latestInviteIdClient)",
 								EventInvite.class)
 				.setParameter("userId", userId)
-				.setParameter("lastInviteIdQuery", latestInviteIdClient)
+				.setParameter("latestInviteIdClient", latestInviteIdClient)
 				.getResultList();
 
 		transaction.commit();
