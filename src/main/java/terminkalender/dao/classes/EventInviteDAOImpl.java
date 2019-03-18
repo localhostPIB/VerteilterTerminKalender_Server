@@ -5,6 +5,7 @@ import terminkalender.model.classes.EventImpl;
 import terminkalender.model.classes.EventInviteImpl;
 import terminkalender.model.interfaces.EventInvite;
 
+import javax.persistence.NoResultException;
 import java.util.List;
 
 /**
@@ -108,17 +109,26 @@ public class EventInviteDAOImpl extends ObjectDAOImpl implements EventInviteDAO
 	public int getLatestInviteIdToUser(int userId) {
 		initTransaction();
 		transaction.begin();
+		List<Integer> latestId;
 
-		int latestId = entityManager
-				.createQuery("SELECT inv.inviteId FROM EventInviteImpl inv WHERE inv.userId = :userId ORDER BY inv.inviteId DESC",
-								Integer.class)
-				.setParameter("userId", userId)
-				.setMaxResults(1)
-				.getSingleResult();
+		//int latestId = -1;
+
+		try {
+			latestId = entityManager
+					.createQuery("SELECT inv.inviteId FROM EventInviteImpl inv WHERE inv.userId = :userId ORDER BY inv.inviteId DESC",
+							Integer.class)
+					.setParameter("userId", userId)
+					.setMaxResults(1)
+					.getResultList();
+			if(latestId.size() == 1)
+				return latestId.get(0);
+		} catch (NoResultException e) {
+			e.printStackTrace();
+		}
 
 		transaction.commit();
 		finishTransaction();
-		return latestId;
+		return -1;
 	}
 
 	/** ------------- DELETE 1 -------------

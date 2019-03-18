@@ -65,7 +65,7 @@ public class ServerSentEventResource
 				try {
 					//check if there is new invitation in the database
 					latestIdServer = eventInviteDAO.getLatestInviteIdToUser(userid);
-					if(latestIdServer == latestIdClient) {			//no new change
+					if(latestIdServer == latestIdClient || latestIdServer == -1) {			//no new change
 						Thread.sleep(5000);
 						continue;
 					}
