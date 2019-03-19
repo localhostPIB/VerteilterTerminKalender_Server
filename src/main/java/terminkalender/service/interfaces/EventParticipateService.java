@@ -2,6 +2,8 @@ package terminkalender.service.interfaces;
 
 import terminkalender.model.interfaces.EventParticipate;
 
+import java.util.List;
+
 /**
  * Interface for the EventParticipateService
  */
@@ -13,8 +15,11 @@ public interface EventParticipateService
     // ------------- GET -------------
     EventParticipate getParticipation(int participateId);
 
-    // ------------- GET ALL USER WHO ACCEPT------------------------------
+    // ------------- GET ALL USER WHO ACCEPT -------------
     String getUserWhoAccept(int eventId);
+
+    // ------------- GET ALL PARTICIPATE -------------
+    String getAllParticipate(int userId);
 
     // ------------- DELETE -------------
     void deleteParticipation(int participateId);

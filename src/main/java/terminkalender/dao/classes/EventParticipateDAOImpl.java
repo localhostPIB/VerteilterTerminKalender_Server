@@ -79,6 +79,28 @@ public class EventParticipateDAOImpl extends ObjectDAOImpl implements EventParti
         return userList;
     }
 
+    /** ------------- GET ALL -------------
+     * retrieve all the participate belong to the user
+     * @param userId the user who creates the participate
+     * @return List of all EventParticipate belongs to the user
+     */
+    @Override
+    public List<EventParticipate> getAllParticipate(int userId) {
+        initTransaction();
+        transaction.begin();
+
+        List<EventParticipate> participateList = entityManager
+                .createQuery("SELECT part FROM EventParticipateImpl part WHERE part.userId = :userId",
+                                EventParticipate.class)
+                .setParameter("userId", userId)
+                .getResultList();
+
+        transaction.commit();
+        finishTransaction();
+        return participateList;
+    }
+
+
     /** ------------- DELETE 1 -------------
      * delete EventParticipate from the database
      * @param participateId the id of the EventParticipate

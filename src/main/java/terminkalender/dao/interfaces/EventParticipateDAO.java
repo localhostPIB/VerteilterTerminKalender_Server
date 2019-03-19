@@ -18,6 +18,9 @@ public interface EventParticipateDAO
     // ------------- GET ALL -------------
     List<Integer> getUserWhoAccept(int eventId);
 
+    // ------------- GET ALL -------------
+    List<EventParticipate> getAllParticipate(int userId);
+
     // ------------- DELETE 1 -------------
     void deleteEventParticipate(int participateId);
 

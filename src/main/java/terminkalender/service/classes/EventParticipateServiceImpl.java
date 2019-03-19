@@ -11,12 +11,14 @@ import terminkalender.model.interfaces.EventParticipate;
 import terminkalender.model.interfaces.User;
 import terminkalender.service.interfaces.EventParticipateService;
 import terminkalender.util.Views;
+import terminkalender.util.util;
 import terminkalender.validators.ObjectValidator;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Resource / Service class for Event Participate - Object
@@ -29,7 +31,7 @@ public class EventParticipateServiceImpl implements EventParticipateService
     private UserDAO userDAO;
     static final String webContextPath = "participate";
 
-    private EventParticipateServiceImpl(EventParticipateDAO eventParticipateDAO, UserDAO userDAO) throws ObjectIstNullException {
+    public EventParticipateServiceImpl(EventParticipateDAO eventParticipateDAO, UserDAO userDAO) throws ObjectIstNullException {
         ObjectValidator.checkObObjectNullIst(eventParticipateDAO);
         ObjectValidator.checkObObjectNullIst(userDAO);
         this.eventParticipateDAO = eventParticipateDAO;
@@ -74,7 +76,7 @@ public class EventParticipateServiceImpl implements EventParticipateService
     //ex: localhost:8000/participate/event/{eventid}
     /** ------------- GET ALL USER WHO ACCEPT------------------------------
      * GET-endpoint for retrieving all user who accept the event
-     * @param eventId
+     * @param eventId id of the event
      * @return all user who accept the event
      */
     @Override
@@ -84,22 +86,31 @@ public class EventParticipateServiceImpl implements EventParticipateService
     public String getUserWhoAccept(@PathParam("eventid") int eventId){
         String result = "";
         List<Integer> listOfUserId = eventParticipateDAO.getUserWhoAccept(eventId);
-
-        List<User> userList = new ArrayList<>();
-        for(int i: listOfUserId) {
-            userList.add(userDAO.getUserById(i));
-        }
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.disable(MapperFeature.DEFAULT_VIEW_INCLUSION);
-        try {
-            result = mapper.writerWithView(Views.Public.class)
-                           .writeValueAsString(userList);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        return result;
-
+        List<User> userList = listOfUserId.stream()
+                                          .map(userDAO::getUserById)
+                                          .collect(Collectors.toList());
+        return util.convertUserListToNameList(userList);
     }
+
+
+    //ex: localhost:8000/participate/user/{userid}
+    /** ------------- GET ALL PARTICIPATE ------------------------------
+     * GET-endpoint for retrieving all participate objekt from the user
+     * participate object contains event id, which then can be used to
+     * retrieve related event that the user has accepted
+     * @param userId id of the user
+     * @return String containing list of EventParticipate from this user
+     */
+    @Override
+    @GET
+    @Path("user/{userid}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getAllParticipate(@PathParam("userid") int userId) {
+        List<EventParticipate> allParticipate = eventParticipateDAO.getAllParticipate(userId);
+        return util.convertListToJSON(allParticipate);
+    }
+
+
 
     //ex: localhost:8000/participate/delete/{participateid}
     /** -------------------------------- DELETE --------------------------------

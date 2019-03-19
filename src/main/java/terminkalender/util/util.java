@@ -1,7 +1,9 @@
 package terminkalender.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import terminkalender.model.interfaces.User;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -30,15 +32,29 @@ public class util
 	 * @param objectsList List containing all events
 	 * @return JSON String
 	 */
-	public static String convertListEventToJSON(List<?> objectsList) {
-		String eventListAsJSON = "";
+	public static String convertListToJSON(List<?> objectsList) {
+		String listAsJSON = "";
 		ObjectMapper objectMapper = new ObjectMapper();
 		try {
-			eventListAsJSON = objectMapper.writeValueAsString(objectsList);
+			listAsJSON = objectMapper.writeValueAsString(objectsList);
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-		return eventListAsJSON;
+		return listAsJSON;
+	}
+
+	public static String convertUserListToNameList(List<User> userList) {
+		String result = "";
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.disable(MapperFeature.DEFAULT_VIEW_INCLUSION);
+		try {
+			result = mapper.writerWithView(Views.Public.class)
+						   .writeValueAsString(userList);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		return result;
+
 	}
 
 

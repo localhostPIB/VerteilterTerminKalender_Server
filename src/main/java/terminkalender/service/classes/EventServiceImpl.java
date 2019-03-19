@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import static terminkalender.util.util.convertListEventToJSON;
+import static terminkalender.util.util.convertListToJSON;
 
 /**
  * Resource class for Event-Object
@@ -26,7 +26,7 @@ public class EventServiceImpl implements EventService
     private EventDAO eventDAO;
     static final String webContextPath ="event";
 
-    private EventServiceImpl(EventDAO eventDAO) throws ObjectIstNullException {
+    public EventServiceImpl(EventDAO eventDAO) throws ObjectIstNullException {
         ObjectValidator.checkObObjectNullIst(eventDAO);
         this.eventDAO = eventDAO;
     }
@@ -78,7 +78,7 @@ public class EventServiceImpl implements EventService
     @Produces(MediaType.APPLICATION_JSON)
     public String getAllEventFromUser(@PathParam("userid") int userId) {
         List<Event> eventList = eventDAO.getAllEventFromUser(userId);
-        return convertListEventToJSON(eventList);
+        return convertListToJSON(eventList);
     }
 
     //ex: localhost:8000/event/eventlist/{userid}?startdate=...&enddate=...
@@ -109,7 +109,7 @@ public class EventServiceImpl implements EventService
                 .filter(betweenTwoDates)
                 .collect(Collectors.toList());
 
-        return convertListEventToJSON(eventList);
+        return convertListToJSON(eventList);
     }
 
     //ex: localhost:8000/event/update {request body containing the updated event}

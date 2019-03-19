@@ -21,7 +21,7 @@ public class EventInviteServiceImpl implements EventInviteService
     private EventInviteDAO eventInviteDAO;
     static final String webContextPath = "invitation";
 
-    private  EventInviteServiceImpl(EventInviteDAO eventInviteDAO) throws ObjectIstNullException {
+    public EventInviteServiceImpl(EventInviteDAO eventInviteDAO) throws ObjectIstNullException {
         ObjectValidator.checkObObjectNullIst(eventInviteDAO);
         this.eventInviteDAO = eventInviteDAO;
     }
@@ -73,7 +73,7 @@ public class EventInviteServiceImpl implements EventInviteService
     @Produces(MediaType.APPLICATION_JSON)
     public String getInvitationToUser(@PathParam("userid")int userId) {
         List<EventInvite> invitationList = eventInviteDAO.getAllInvitationToUser(userId);
-        return util.convertListEventToJSON(invitationList);
+        return util.convertListToJSON(invitationList);
     }
 
     /**

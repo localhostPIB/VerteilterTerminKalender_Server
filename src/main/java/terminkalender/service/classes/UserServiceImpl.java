@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService
     private UserDAO userDAO;
     static final String webContextPath ="user";
 
-    private UserServiceImpl(UserDAO userDAO) throws ObjectIstNullException {
+    public UserServiceImpl(UserDAO userDAO) throws ObjectIstNullException {
         ObjectValidator.checkObObjectNullIst(userDAO);
         this.userDAO = userDAO;
     }

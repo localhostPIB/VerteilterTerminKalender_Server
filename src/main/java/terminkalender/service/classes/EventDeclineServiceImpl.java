@@ -11,12 +11,14 @@ import terminkalender.model.interfaces.EventDecline;
 import terminkalender.model.interfaces.User;
 import terminkalender.service.interfaces.EventDeclineService;
 import terminkalender.util.Views;
+import terminkalender.util.util;
 import terminkalender.validators.ObjectValidator;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Resource / Service class for Event Decline - Object
@@ -28,7 +30,7 @@ public class EventDeclineServiceImpl implements EventDeclineService
     private UserDAO userDAO;
     static final String webContextPath = "decline";
 
-    private EventDeclineServiceImpl (EventDeclineDAO eventDeclineDAO, UserDAO userDAO) throws ObjectIstNullException {
+    public EventDeclineServiceImpl (EventDeclineDAO eventDeclineDAO, UserDAO userDAO) throws ObjectIstNullException {
         ObjectValidator.checkObObjectNullIst(eventDeclineDAO);
         ObjectValidator.checkObObjectNullIst(userDAO);
         this.eventDeclineDAO = eventDeclineDAO;
@@ -73,7 +75,7 @@ public class EventDeclineServiceImpl implements EventDeclineService
     //ex: localhost:8000/decline/event/{eventid}
     /** ------------- GET ALL USER WHO DECLINE ------------------------------
      * GET-endpoint for retrieving all user who decline the event
-     * @param eventId
+     * @param eventId id of the event
      * @return all user who decline the event
      */
     @Override
@@ -83,20 +85,10 @@ public class EventDeclineServiceImpl implements EventDeclineService
     public String getUserWhoDecline(@PathParam("eventid") int eventId) {
         String result = "";
         List<Integer> listOfUserId = eventDeclineDAO.getUserWhoDecline(eventId);
-
-        List<User> userList = new ArrayList<>();
-        for (int i : listOfUserId) {
-            userList.add(userDAO.getUserById(i));
-        }
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.disable(MapperFeature.DEFAULT_VIEW_INCLUSION);
-        try {
-            result = mapper.writerWithView(Views.Public.class)
-                           .writeValueAsString(userList);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        return result;
+        List<User> userList = listOfUserId.stream()
+                                          .map(userDAO::getUserById)
+                                          .collect(Collectors.toList());
+        return util.convertUserListToNameList(userList);
     }
 
     //ex: localhost:8000/decline/delete/{declineid}
