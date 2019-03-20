@@ -17,7 +17,6 @@ public interface UserService
 	User getUser (String email);
 
 	// ------------- GET -------------
-
 	User getUserByUserId(int userId);
 
 	// ------------- GET -------------
