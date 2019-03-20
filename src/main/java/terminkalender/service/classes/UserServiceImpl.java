@@ -38,11 +38,24 @@ public class UserServiceImpl implements UserService
     @Override
     @POST
     @Path("add")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)    @Produces(MediaType.APPLICATION_JSON)
     public User addUser(User user) {
         int newUserId = userDAO.addUser(user);
         return userDAO.getUserById(newUserId);
+    }
+
+    //ex: localhost:8000/user/{userid}
+    /** -------------------------------- GET --------------------------------
+     *  GET-endpoint for retrieving user
+     * @param userId the userid of the user wants to be retrieved
+     *@return the user having the userid
+     */
+    @Override
+    @GET
+    @Path("id/{userid}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public User getUserByUserId(@PathParam("userid") int userId){
+        return  userDAO.getUserById(userId);
     }
 
     //ex: localhost:8000/user/{email}
