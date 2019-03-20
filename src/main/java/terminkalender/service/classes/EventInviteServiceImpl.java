@@ -14,6 +14,9 @@ import java.util.List;
 
 /**
  * Resource / Service class for EventInvite - Object
+ *
+ * @author Piri, Shenna RWP
+ * @author Bimantara, Agra
  */
 @Path(EventInviteServiceImpl.webContextPath)
 public class EventInviteServiceImpl implements EventInviteService
@@ -21,11 +24,20 @@ public class EventInviteServiceImpl implements EventInviteService
     private EventInviteDAO eventInviteDAO;
     static final String webContextPath = "invitation";
 
+    /**
+     * constructor, the DAOs is passed as parameters
+     * @param eventInviteDAO DAO for EventInvite
+     * @throws ObjectIstNullException if there is DAO Object that has not been instantiated
+     */
     public EventInviteServiceImpl(EventInviteDAO eventInviteDAO) throws ObjectIstNullException {
         ObjectValidator.checkObObjectNullIst(eventInviteDAO);
         this.eventInviteDAO = eventInviteDAO;
     }
 
+    /**
+     * standard constructor for generating the DAOs with the builder
+     * @throws ObjectIstNullException when some object is null
+     */
     public EventInviteServiceImpl() throws  ObjectIstNullException{
         this(DAOObjectBuilder.getEventInviteDaoObject());
     }

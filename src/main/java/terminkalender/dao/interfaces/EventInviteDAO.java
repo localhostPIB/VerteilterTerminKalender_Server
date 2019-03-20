@@ -6,6 +6,9 @@ import java.util.List;
 
 /**
  * Interface for the EventInviteDAO
+ *
+ * @author Piri, Shenna RWP
+ * @author Bimantara, Agra
  */
 public interface EventInviteDAO extends ObjectDAO
 {
@@ -18,8 +21,10 @@ public interface EventInviteDAO extends ObjectDAO
     // ------------- GET ALL -------------
     List<EventInvite> getAllInvitationToUser(int userId);
 
+    // ------------- GET ALL -------------
     List<EventInvite> getLatestInviteToUser(int userId, int lastInviteIdQuery);
 
+    // ------------- GET -------------
 	int getLatestInviteIdToUser(int userId);
 
     // ------------- DELETE 1 -------------

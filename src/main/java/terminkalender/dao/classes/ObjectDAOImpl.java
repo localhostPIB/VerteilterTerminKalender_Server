@@ -12,6 +12,9 @@ import java.sql.SQLException;
 
 /**
  * superclass of all DAO-Classes
+ *
+ * @author Piri, Shenna RWP
+ * @author Bimantara, Agra
  */
 public class ObjectDAOImpl implements ObjectDAO
 {

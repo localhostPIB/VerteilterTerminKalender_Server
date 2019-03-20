@@ -15,7 +15,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
+ * this is class for launching the server,
+ * it attached itself to specific address in localhost,
+ * registers all service classes that will be used and start
  *
+ * @author Piri, Shenna RWP
+ * @author Bimantara, Agra
  */
 public class ServiceLauncher
 {

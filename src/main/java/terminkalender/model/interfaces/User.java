@@ -3,10 +3,15 @@ package terminkalender.model.interfaces;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import terminkalender.model.classes.UserImpl;
 
+/**
+ * Interface for model class User
+ *
+ * @author Piri, Shenna RWP
+ * @author Bimantara, Agra
+ */
 @JsonDeserialize(as = UserImpl.class)
 public interface User
 {
-
 	//----------------USERID----------------
 	public int getUserId();
 	public void setUserId(int userId);

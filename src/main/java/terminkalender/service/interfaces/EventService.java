@@ -4,6 +4,9 @@ import terminkalender.model.interfaces.Event;
 
 /**
  * Interface for the EventService
+ *
+ * @author Piri, Shenna RWP
+ * @author Bimantara, Agra
  */
 public interface EventService
 {

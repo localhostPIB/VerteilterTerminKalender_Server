@@ -22,15 +22,23 @@ import java.util.stream.Collectors;
 
 /**
  * Resource / Service class for Event Participate - Object
+ *
+ * @author Piri, Shenna RWP
+ * @author Bimantara, Agra
  */
 @Path(EventParticipateServiceImpl.webContextPath)
 public class EventParticipateServiceImpl implements EventParticipateService
 {
-
     private EventParticipateDAO eventParticipateDAO;
     private UserDAO userDAO;
     static final String webContextPath = "participate";
 
+    /**
+     * constructor, the DAOs is passed as parameters
+     * @param eventParticipateDAO DAO for EventParticipate
+     * @param userDAO DAO for User
+     * @throws ObjectIstNullException if there is DAO Object that has not been instantiated
+     */
     public EventParticipateServiceImpl(EventParticipateDAO eventParticipateDAO, UserDAO userDAO) throws ObjectIstNullException {
         ObjectValidator.checkObObjectNullIst(eventParticipateDAO);
         ObjectValidator.checkObObjectNullIst(userDAO);
@@ -38,6 +46,10 @@ public class EventParticipateServiceImpl implements EventParticipateService
         this.userDAO = userDAO;
     }
 
+    /**
+     * standard constructor for generating the DAOs with the builder
+     * @throws ObjectIstNullException when some object is null
+     */
     public EventParticipateServiceImpl() throws  ObjectIstNullException {
         this (DAOObjectBuilder.getEventPaticipateDaoObject(), DAOObjectBuilder.getUserDaoObject());
     }
@@ -92,7 +104,6 @@ public class EventParticipateServiceImpl implements EventParticipateService
         return util.convertUserListToNameList(userList);
     }
 
-
     //ex: localhost:8000/participate/user/{userid}
     /** ------------- GET ALL PARTICIPATE ------------------------------
      * GET-endpoint for retrieving all participate objekt from the user
@@ -110,8 +121,6 @@ public class EventParticipateServiceImpl implements EventParticipateService
         return util.convertListToJSON(allParticipate);
     }
 
-
-
     //ex: localhost:8000/participate/delete/{participateid}
     /** -------------------------------- DELETE --------------------------------
      * DELETE-endpoint for deleting Event Participate
@@ -123,7 +132,5 @@ public class EventParticipateServiceImpl implements EventParticipateService
     public void deleteParticipation(@PathParam("participateid") int participateId) {
         eventParticipateDAO.deleteEventParticipate(participateId);
     }
-
-
 }
 

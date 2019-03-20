@@ -2,31 +2,22 @@ package terminkalender.validators;
 
 import terminkalender.exceptions.ObjectIstNullException;
 
+/**
+ * validator class
+ *
+ * @author Piri, Shenna RWP
+ * @author Bimantara, Agra
+ */
 public class ObjectValidator {
 
     /**
-     * Validator prueft ob ein Objekt Null ist
-     * @param zuUberpruefendesObject zu pruefendes Objekt
+     * check if an object is null
+     * @param object the object want to be tested
      * @throws ObjectIstNullException wirft eine Exception, wenn das Objekt null ist
      */
-    public static void checkObObjectNullIst(Object zuUberpruefendesObject) throws ObjectIstNullException {
-        if(zuUberpruefendesObject == null){
+    public static void checkObObjectNullIst(Object object) throws ObjectIstNullException {
+        if(object == null){
             throw new ObjectIstNullException();
-        }
-    }
-
-
-    /**
-     * Prüft, ob ein übergebens Objekt null ist
-     *
-     * @param zuUeberpruefendesObject zu prüfendes Objekt
-     * @return true,wenn das Objekt null ist, sonst false
-     */
-    public static boolean isObjectNull(Object zuUeberpruefendesObject){
-        if(zuUeberpruefendesObject == null){
-            return true;
-        }else{
-            return false;
         }
     }
 }

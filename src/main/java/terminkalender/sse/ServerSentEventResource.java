@@ -15,6 +15,9 @@ import java.util.List;
 
 /**
  * SSE Implementation class for EventInvite / Invitation Objects
+ *
+ * @author Piri, Shenna RWP
+ * @author Bimantara, Agra
  */
 @Path("sse")
 public class ServerSentEventResource

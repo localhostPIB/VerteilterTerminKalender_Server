@@ -1,8 +1,5 @@
 package terminkalender.service.classes;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.MapperFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import terminkalender.builders.DAOObjectBuilder;
 import terminkalender.dao.interfaces.EventDeclineDAO;
 import terminkalender.dao.interfaces.UserDAO;
@@ -10,18 +7,19 @@ import terminkalender.exceptions.ObjectIstNullException;
 import terminkalender.model.interfaces.EventDecline;
 import terminkalender.model.interfaces.User;
 import terminkalender.service.interfaces.EventDeclineService;
-import terminkalender.util.Views;
 import terminkalender.util.util;
 import terminkalender.validators.ObjectValidator;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 /**
  * Resource / Service class for Event Decline - Object
+ *
+ * @author Piri, Shenna RWP
+ * @author Bimantara, Agra
  */
 @Path(EventDeclineServiceImpl.webContextPath)
 public class EventDeclineServiceImpl implements EventDeclineService
@@ -30,6 +28,12 @@ public class EventDeclineServiceImpl implements EventDeclineService
     private UserDAO userDAO;
     static final String webContextPath = "decline";
 
+    /**
+     * constructor, the DAOs is passed as parameters
+     * @param eventDeclineDAO DAO for EventDecline
+     * @param userDAO DAO for User
+     * @throws ObjectIstNullException if there is DAO Object that has not been instantiated
+     */
     public EventDeclineServiceImpl (EventDeclineDAO eventDeclineDAO, UserDAO userDAO) throws ObjectIstNullException {
         ObjectValidator.checkObObjectNullIst(eventDeclineDAO);
         ObjectValidator.checkObObjectNullIst(userDAO);
@@ -37,6 +41,10 @@ public class EventDeclineServiceImpl implements EventDeclineService
         this.userDAO = userDAO;
     }
 
+    /**
+     * standard constructor for generating the DAOs with the builder
+     * @throws ObjectIstNullException when some object is null
+     */
     public EventDeclineServiceImpl() throws  ObjectIstNullException{
         this (DAOObjectBuilder.getEventDeclineDaoObject(), DAOObjectBuilder.getUserDaoObject());
     }

@@ -11,24 +11,42 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
+/**
+ * this class contains various helper function
+ *
+ * @author Piri, Shenna RWP
+ * @author Bimantara, Agra
+ */
 public class util
 {
+	/**
+	 * convert LocalDateTime to String representing the time
+	 * format example: 2019-03-16T13:42:00
+	 */
 	public static String convertTimeToString(LocalDateTime localDateTime) {
 		return localDateTime.truncatedTo(ChronoUnit.MINUTES)
 							 .format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
 	}
 
+	/**
+	 * convert String representing the time to LocalDateTime
+	 * format example: 2019-03-16T13:42:00
+	 */
 	public static LocalDateTime convertStringToTime(String time) {
 		return LocalDateTime.parse(time, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
 							 .truncatedTo(ChronoUnit.MINUTES);
 	}
 
+	/**
+	 * convert String representing the Date to LocalDate
+	 * format example: 2019-03-16
+	 */
 	public static LocalDate convertStringToDate(String date) {
 		return LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE);
 	}
 
 	/**
-	 * Helpfunction, convert List of objects to JSON string to be returned to client
+	 * convert List of objects to JSON string to be returned to client
 	 * @param objectsList List containing all events
 	 * @return JSON String
 	 */
@@ -43,6 +61,11 @@ public class util
 		return listAsJSON;
 	}
 
+	/**
+	 * convert List of User - objects to JSON string to be returned to client
+	 * @param userList List containing all User - objects
+	 * @return JSON String, only containing name & last name from each user in the list
+	 */
 	public static String convertUserListToNameList(List<User> userList) {
 		String result = "";
 		ObjectMapper mapper = new ObjectMapper();

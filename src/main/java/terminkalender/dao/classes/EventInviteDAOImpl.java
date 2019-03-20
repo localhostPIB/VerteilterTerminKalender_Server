@@ -10,6 +10,9 @@ import java.util.List;
 
 /**
  * DAO-Class for the EventInvite
+ *
+ * @author Piri, Shenna RWP
+ * @author Bimantara, Agra
  */
 public class EventInviteDAOImpl extends ObjectDAOImpl implements EventInviteDAO
 {
@@ -110,8 +113,6 @@ public class EventInviteDAOImpl extends ObjectDAOImpl implements EventInviteDAO
 		initTransaction();
 		transaction.begin();
 		List<Integer> latestId;
-
-		//int latestId = -1;
 
 		try {
 			latestId = entityManager

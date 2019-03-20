@@ -9,6 +9,9 @@ import java.util.List;
 
 /**
  * DAO-Class for the EventDeclineDAO
+ *
+ * @author Piri, Shenna RWP
+ * @author Bimantara, Agra
  */
 public class EventDeclineDAOImpl extends ObjectDAOImpl implements EventDeclineDAO
 {

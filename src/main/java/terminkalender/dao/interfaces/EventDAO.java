@@ -6,6 +6,9 @@ import java.util.List;
 
 /**
  * Interface for the EventDAO
+ *
+ * @author Piri, Shenna RWP
+ * @author Bimantara, Agra
  */
 public interface EventDAO extends ObjectDAO
 {

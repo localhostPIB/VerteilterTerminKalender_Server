@@ -7,6 +7,13 @@ import terminkalender.model.interfaces.*;
 
 import java.time.LocalDateTime;
 
+/**
+ * this is test class for generating sample data in the database
+ * it creates multiple Users, Events, Invitations, EventParticipate & EventDecline
+ *
+ * @author Piri, Shenna RWP
+ * @author Bimantara, Agra
+ */
 public class MainApp {
 
     private EventDeclineDAO eventDeclineDAO;
@@ -21,7 +28,6 @@ public class MainApp {
         this.eventInviteDAO         = DAOObjectBuilder.getEventInviteDaoObject();
         this.eventParticipateDAO    = DAOObjectBuilder.getEventPaticipateDaoObject();
         this.userDAO                = DAOObjectBuilder.getUserDaoObject();
-
     }
 
     private void removeAllRecords() {
@@ -31,8 +37,6 @@ public class MainApp {
         eventParticipateDAO.removeAllEventParticipate();
         userDAO.removeAllUserData();
     }
-
-
 
     private void generateData() {
         User tom = ModelObjectBuilder.getUserObject();
@@ -187,8 +191,7 @@ public class MainApp {
         decline2.setEventId(johnEvent1.getEventId());
         decline2.setUserId(sarah.getUserId());
         eventDeclineDAO.addEventDecline(decline2);
-        
-    }
+            }
 
     public static void main(String[] args) {
         MainApp mainApp = new MainApp();

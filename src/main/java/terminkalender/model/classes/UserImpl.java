@@ -11,6 +11,15 @@ import terminkalender.util.Views;
 
 import javax.persistence.*;
 
+/**
+ * this is model class for the User Object
+ * the Object contains:
+ *      its own id as primary key in the database
+ *      various attributes describing the user
+ *
+ * @author Piri, Shenna RWP
+ * @author Bimantara, Agra
+ */
 @Entity
 @Table(name = "user")
 @Getter @Setter
@@ -23,15 +32,14 @@ public class UserImpl implements User
 	private int userId;
 
 	@Column(name = "password")
-	//@JsonProperty(access = Access.WRITE_ONLY)
 	private String password;
 
-	@JsonView(Views.Public.class)
 	@Column(name = "name")
+	@JsonView(Views.Public.class)
 	private String name;
 
-	@JsonView(Views.Public.class)
 	@Column(name = "lastname")
+	@JsonView(Views.Public.class)
 	private String lastName;
 
 	@Column(name = "email", unique = true)

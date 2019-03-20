@@ -2,10 +2,11 @@ package terminkalender.service.interfaces;
 
 import terminkalender.model.interfaces.EventParticipate;
 
-import java.util.List;
-
 /**
  * Interface for the EventParticipateService
+ *
+ * @author Piri, Shenna RWP
+ * @author Bimantara, Agra
  */
 public interface EventParticipateService
 {

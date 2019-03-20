@@ -2,6 +2,9 @@ package terminkalender.dao.interfaces;
 
 /**
  * Interface for the ObjectDAO, the superclass for all DAO Classes
+ *
+ * @author Piri, Shenna RWP
+ * @author Bimantara, Agra
  */
 public interface ObjectDAO
 {

@@ -7,10 +7,15 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Date;
 
+/**
+ * Interface for model class Event
+ *
+ * @author Piri, Shenna RWP
+ * @author Bimantara, Agra
+ */
 @JsonDeserialize(as = EventImpl.class)
 public interface Event
 {
-
 	//----------------EVENTID----------------
 	public int getEventId();
 	public void setEventId(int eventId);
@@ -45,6 +50,4 @@ public interface Event
 	//----------------USERID----------------
 	public int getUserId();
 	public void setUserId(int userId);
-
-
 }

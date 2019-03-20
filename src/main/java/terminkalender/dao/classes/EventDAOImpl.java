@@ -8,6 +8,9 @@ import java.util.List;
 
 /**
  * DAO-Class for the EventDAO
+ *
+ * @author Piri, Shenna RWP
+ * @author Bimantara, Agra
  */
 public class EventDAOImpl extends ObjectDAOImpl implements EventDAO
 {
@@ -87,7 +90,7 @@ public class EventDAOImpl extends ObjectDAOImpl implements EventDAO
         transaction.begin();
 
         Event updateEvent = entityManager.find(EventImpl.class, event.getEventId());
-        if(updateEvent == null){
+        if(updateEvent == null) {
             finishTransaction();
             throw new IllegalArgumentException("Event existiert nicht!");
         }
@@ -102,7 +105,7 @@ public class EventDAOImpl extends ObjectDAOImpl implements EventDAO
      * @param eventId id of the to be deleted event
      */
     @Override
-    public void deleteEvent(int eventId){
+    public void deleteEvent(int eventId) {
         initTransaction();
         transaction.begin();
 
@@ -130,6 +133,4 @@ public class EventDAOImpl extends ObjectDAOImpl implements EventDAO
         transaction.commit();
         finishTransaction();
     }
-
-
 }

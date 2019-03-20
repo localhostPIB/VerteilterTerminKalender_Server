@@ -12,6 +12,9 @@ import javax.ws.rs.core.MediaType;
 
 /**
  * Resource class for UserImpl-Object
+ *
+ * @author Piri, Shenna RWP
+ * @author Bimantara, Agra
  */
 @Path(UserServiceImpl.webContextPath)
 public class UserServiceImpl implements UserService
@@ -19,11 +22,20 @@ public class UserServiceImpl implements UserService
     private UserDAO userDAO;
     static final String webContextPath ="user";
 
+    /**
+     * constructor, the DAOs is passed as parameters
+     * @param userDAO DAO for Event
+     * @throws ObjectIstNullException if there is DAO Object that has not been instantiated
+     */
     public UserServiceImpl(UserDAO userDAO) throws ObjectIstNullException {
         ObjectValidator.checkObObjectNullIst(userDAO);
         this.userDAO = userDAO;
     }
 
+    /**
+     * standard constructor for generating the DAOs with the builder
+     * @throws ObjectIstNullException when some object is null
+     */
     public UserServiceImpl() throws ObjectIstNullException {
         this(DAOObjectBuilder.getUserDaoObject());
     }

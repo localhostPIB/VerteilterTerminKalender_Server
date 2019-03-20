@@ -14,12 +14,21 @@ import javax.persistence.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
+/**
+ * this is model class for the Event Object
+ * the Object contains:
+ *      its own id as primary key in the database
+ *      various attributes describing the event
+ *      id of the user as foreign key (user creates the event)
+ *
+ * @author Piri, Shenna RWP
+ * @author Bimantara, Agra
+ */
 @Entity
 @Table(name = "event")
 @Getter @Setter
 public class EventImpl implements Event
 {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "eventid", nullable = false, unique = true)

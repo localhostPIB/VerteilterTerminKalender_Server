@@ -12,6 +12,9 @@ import java.util.function.Consumer;
 
 /**
  * Client side example for consuming SSE
+ *
+ * @author Piri, Shenna RWP
+ * @author Bimantara, Agra
  */
 public class SSEClient
 {

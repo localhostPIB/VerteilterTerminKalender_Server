@@ -8,6 +8,9 @@ import java.util.List;
 
 /**
  * DAO-Class for the EventParticipate
+ *
+ * @author Piri, Shenna RWP
+ * @author Bimantara, Agra
  */
 public class EventParticipateDAOImpl extends ObjectDAOImpl implements EventParticipateDAO
 {
@@ -135,5 +138,4 @@ public class EventParticipateDAOImpl extends ObjectDAOImpl implements EventParti
         transaction.commit();
         finishTransaction();
     }
-
 }

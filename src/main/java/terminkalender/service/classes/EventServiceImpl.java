@@ -19,6 +19,9 @@ import static terminkalender.util.util.convertListToJSON;
 
 /**
  * Resource class for Event-Object
+ *
+ * @author Piri, Shenna RWP
+ * @author Bimantara, Agra
  */
 @Path(EventServiceImpl.webContextPath)
 public class EventServiceImpl implements EventService
@@ -26,11 +29,20 @@ public class EventServiceImpl implements EventService
     private EventDAO eventDAO;
     static final String webContextPath ="event";
 
+    /**
+     * constructor, the DAOs is passed as parameters
+     * @param eventDAO DAO for Event
+     * @throws ObjectIstNullException if there is DAO Object that has not been instantiated
+     */
     public EventServiceImpl(EventDAO eventDAO) throws ObjectIstNullException {
         ObjectValidator.checkObObjectNullIst(eventDAO);
         this.eventDAO = eventDAO;
     }
 
+    /**
+     * standard constructor for generating the DAOs with the builder
+     * @throws ObjectIstNullException when some object is null
+     */
     public EventServiceImpl() throws ObjectIstNullException {
         this(DAOObjectBuilder.getEventDaoObject());
     }
