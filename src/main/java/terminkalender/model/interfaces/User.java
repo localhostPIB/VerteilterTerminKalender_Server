@@ -13,23 +13,22 @@ import terminkalender.model.classes.UserImpl;
 public interface User
 {
 	//----------------USERID----------------
-	public int getUserId();
-	public void setUserId(int userId);
+	int getUserId();
+	void setUserId(int userId);
 
 	//----------------PASSWORD----------------
-	public String getPassword();
-	public void setPassword(String password);
+	String getPassword();
+	void setPassword(String password);
 
 	//----------------NAME----------------
-	public String getName();
-	public void setName(String name);
+	String getName();
+	void setName(String name);
 
 	//----------------LASTNAME----------------
-	public String getLastName();
-	public void setLastName(String lastName);
+	String getLastName();
+	void setLastName(String lastName);
 
 	//----------------EMAIL----------------
-	public String getEmail();
-	public void setEmail(String email);
-
+	String getEmail();
+	void setEmail(String email);
 }
