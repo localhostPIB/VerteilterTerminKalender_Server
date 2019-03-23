@@ -42,7 +42,7 @@ public class EventInviteServiceImpl implements EventInviteService
         this(DAOObjectBuilder.getEventInviteDaoObject());
     }
 
-    //ex: localhost:8000/invitation/add {request body containing the new invitation}
+    //ex: localhost:8000/invitation/{request body containing the new invitation}
     /** -------------------------------- POST --------------------------------
      * POST-endpoint for creating new invitation
      * request body should contain event invitation object WITHOUT the id
@@ -51,7 +51,6 @@ public class EventInviteServiceImpl implements EventInviteService
      */
     @Override
     @POST
-    @Path("add")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public EventInvite addInvitation(EventInvite eventInvite) {
@@ -109,14 +108,14 @@ public class EventInviteServiceImpl implements EventInviteService
     	return latestId;
 	}
 
-    //ex: localhost:8000/invitation/delete/{inviteid}
+    //ex: localhost:8000/invitation/{inviteid}
     /** -------------------------------- DELETE --------------------------------
      * DELETE-endpoint for deleting Event Invitation
      * @param inviteId the id of the Invitation wants to be deleted
      */
     @Override
     @DELETE
-    @Path("delete/{inviteid}")
+    @Path("{inviteid}")
     public void deleteInvitation(@PathParam("inviteid") int inviteId) {
         eventInviteDAO.deleteEventInvite(inviteId);
     }

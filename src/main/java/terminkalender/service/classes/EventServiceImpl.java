@@ -47,7 +47,7 @@ public class EventServiceImpl implements EventService
         this(DAOObjectBuilder.getEventDaoObject());
     }
 
-    //ex: localhost:8000/event/add {request body containing the new event}
+    //ex: localhost:8000/event/{request body containing the new event}
     /** -------------------------------- POST --------------------------------
      * POST-endpoint for adding new event
      * request body should contain event object WITHOUT the id and WITHOUT the duration
@@ -56,7 +56,6 @@ public class EventServiceImpl implements EventService
      */
     @Override
     @POST
-    @Path("add")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Event addEvent(Event event) {
@@ -124,7 +123,7 @@ public class EventServiceImpl implements EventService
         return convertListToJSON(eventList);
     }
 
-    //ex: localhost:8000/event/update {request body containing the updated event}
+    //ex: localhost:8000/event/{request body containing the updated event}
     /** -------------------------------- PUT --------------------------------
      * PUT-endpoint for updating event
      * request body should contain user object WITH the id and WITHOUT the duration
@@ -132,20 +131,19 @@ public class EventServiceImpl implements EventService
      */
     @Override
     @PUT
-    @Path("update")
     @Consumes(MediaType.APPLICATION_JSON)
     public void updateEvent(Event event) {
         eventDAO.updateEvent(event);
     }
 
-    //ex: localhost:8000/event/delete/{eventid}
+    //ex: localhost:8000/event/{eventid}
     /** -------------------------------- DELETE --------------------------------
      * DELETE-endpoint for deleting event
      * @param eventId the id of the event wants to be deleted
      */
     @Override
     @DELETE
-    @Path("delete/{eventid}")
+    @Path("{eventid}")
     public void deleteEvent(@PathParam("eventid") int eventId) {
         eventDAO.deleteEvent(eventId);
     }

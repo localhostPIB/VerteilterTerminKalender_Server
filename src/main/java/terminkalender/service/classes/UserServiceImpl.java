@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService
         this(DAOObjectBuilder.getUserDaoObject());
     }
 
-    //ex: localhost:8000/user/add {request body containing the new user}
+    //ex: localhost:8000/user/{request body containing the new user}
     /** -------------------------------- POST --------------------------------
      * POST-endpoint for adding new user
      * request body should contain user object WITHOUT the id
@@ -49,7 +49,6 @@ public class UserServiceImpl implements UserService
      */
     @Override
     @POST
-    @Path("add")
     @Consumes(MediaType.APPLICATION_JSON)    @Produces(MediaType.APPLICATION_JSON)
     public User addUser(User user) {
         int newUserId = userDAO.addUser(user);
@@ -98,7 +97,7 @@ public class UserServiceImpl implements UserService
         return getUser(email).getUserId();
     }
 
-    //ex: localhost:8000/user/update {request body containing the updated user}
+    //ex: localhost:8000/user/{request body containing the updated user}
     /** -------------------------------- PUT --------------------------------
      * PUT-endpoint for updating user
      * request body should contain user object WITH the id
@@ -106,20 +105,19 @@ public class UserServiceImpl implements UserService
      */
     @Override
     @PUT
-    @Path("update")
     @Consumes({MediaType.APPLICATION_JSON})
     public void updateUser(User user) {
         userDAO.updateUser(user);
     }
 
-    //ex: localhost:8000/user/delete/{email}
+    //ex: localhost:8000/user/{email}
     /** -------------------------------- DELETE --------------------------------
      * DELETE-endpoint for deleting user
      * @param email the email of the user wants to be deleted
      */
     @Override
     @DELETE
-    @Path("delete/{email}")
+    @Path("{email}")
     public void deleteUser(@PathParam("email") String email) {
         User toBeDeleted = userDAO.getUserByEmail(email);
         userDAO.deleteUserById(toBeDeleted.getUserId());

@@ -54,7 +54,7 @@ public class EventParticipateServiceImpl implements EventParticipateService
         this (DAOObjectBuilder.getEventPaticipateDaoObject(), DAOObjectBuilder.getUserDaoObject());
     }
 
-    //ex: localhost:8000/participate/add {request body containing the new participate object}
+    //ex: localhost:8000/participate/{request body containing the new participate object}
     /** -------------------------------- POST --------------------------------
      * POST-endpoint for creating new Event Participate
      * request body should contain event Event Participate object WITHOUT the id
@@ -63,7 +63,6 @@ public class EventParticipateServiceImpl implements EventParticipateService
      */
     @Override
     @POST
-    @Path("add")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public EventParticipate addParticipation(EventParticipate eventParticipate) {
@@ -121,14 +120,14 @@ public class EventParticipateServiceImpl implements EventParticipateService
         return util.convertListToJSON(allParticipate);
     }
 
-    //ex: localhost:8000/participate/delete/{participateid}
+    //ex: localhost:8000/participate/{participateid}
     /** -------------------------------- DELETE --------------------------------
      * DELETE-endpoint for deleting Event Participate
      * @param participateId the id of the Event Participate wants to be deleted
      */
     @Override
     @DELETE
-    @Path("delete/{participateid}")
+    @Path("{participateid}")
     public void deleteParticipation(@PathParam("participateid") int participateId) {
         eventParticipateDAO.deleteEventParticipate(participateId);
     }

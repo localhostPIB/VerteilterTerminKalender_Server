@@ -49,7 +49,7 @@ public class EventDeclineServiceImpl implements EventDeclineService
         this (DAOObjectBuilder.getEventDeclineDaoObject(), DAOObjectBuilder.getUserDaoObject());
     }
 
-    //ex: localhost:8000/decline/add {request body containing the new decline object}
+    //ex: localhost:8000/decline/{request body containing the new decline object}
     /** -------------------------------- POST --------------------------------
      * POST-endpoint for creating new Event Decline
      * request body should contain event Event Decline object WITHOUT the id
@@ -58,7 +58,6 @@ public class EventDeclineServiceImpl implements EventDeclineService
      */
     @Override
     @POST
-    @Path("add")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public EventDecline addDecline (EventDecline eventDecline) {
@@ -99,14 +98,14 @@ public class EventDeclineServiceImpl implements EventDeclineService
         return util.convertUserListToNameList(userList);
     }
 
-    //ex: localhost:8000/decline/delete/{declineid}
+    //ex: localhost:8000/decline/{declineid}
     /** -------------------------------- DELETE --------------------------------
      * DELETE-endpoint for deleting Event Decline
      * @param declineId the id of the Event Decline wants to be deleted
      */
     @Override
     @DELETE
-    @Path("delete/{declineid}")
+    @Path("{declineid}")
     public void deleteDecline(@PathParam("declineid") int declineId) {
         eventDeclineDAO.deleteEventDecline(declineId);
     }
