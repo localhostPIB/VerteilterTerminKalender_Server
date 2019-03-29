@@ -21,6 +21,7 @@ import java.util.Set;
  *
  * @author Piri, Shenna RWP
  * @author Bimantara, Agra
+ * @author Zunic, Kerim
  */
 public class ServiceLauncher
 {

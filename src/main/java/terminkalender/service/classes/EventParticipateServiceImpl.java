@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
  *
  * @author Piri, Shenna RWP
  * @author Bimantara, Agra
+ * @author Zunic, Kerim
  */
 @Path(EventParticipateServiceImpl.webContextPath)
 public class EventParticipateServiceImpl implements EventParticipateService
